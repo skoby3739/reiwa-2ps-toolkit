@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【2PSメソッド】統合管理ダッシュボード (オピニオン放流達成・完全オーガニック自走観測 ＆ Phase 2 移行版)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background-color: #0b1120;
+            color: #f1f5f9;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+        .glow-card {
+            box-shadow: 0 0 25px -5px rgba(2, 132, 199, 0.15);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
+        }
+        .glow-gold {
+            box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.2);
+        }
+        .glow-fire {
+            box-shadow: 0 0 25px -5px rgba(239, 68, 68, 0.25);
+        }
+        .glow-purple {
+            box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.2);
+        }
+        .glow-burst {
+            box-shadow: 0 0 30px -5px rgba(236, 72, 153, 0.3);
+        }
+        .glow-github {
+            box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.25);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+            border-color: #38bdf8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- トップヘッダー -->
+    <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 via-sky-500 to-indigo-600 flex items-center justify-center text-slate-950 text-xl font-black shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-satellite-dish text-white"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="code-font text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-400">
+                            OPINION LAUNCHED // 1,000+ IMP SURPASSED 🎯
+                        </span>
+                        <span class="text-xs text-sky-300 font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-chart-line text-sky-400 text-[10px]"></i> 完全オーガニック自走観測 ＆ Phase 2 GitHub準備
+                        </span>
+                    </div>
+                    <h1 class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2 mt-0.5">
+                        <span>『画像生成の2PSメソッド』統合リリース管制塔</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- 全体進捗＆操作コントロール -->
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 bg-slate-900/90 border border-slate-800 rounded-xl px-3.5 py-1.5">
+                    <div class="text-right">
+                        <div class="text-[10px] font-mono text-slate-400">PROGRESS</div>
+                        <div id="global-percentage" class="text-lg font-black text-cyan-400 font-mono leading-tight">0%</div>
+                    </div>
+                    <div class="w-24 sm:w-28 bg-slate-950 rounded-full h-2.5 p-0.5 border border-slate-700/60 overflow-hidden">
+                        <div id="global-bar" class="bg-gradient-to-r from-emerald-500 via-cyan-400 to-sky-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-mono">
+                        <span id="global-done-count" class="text-white font-bold">0</span>/<span id="global-total-count">0</span>
+                    </div>
+                </div>
+
+                <button id="btn-save-all" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 font-bold rounded-xl transition flex items-center gap-1.5 border border-slate-700 shadow-sm" title="進捗をブラウザに一時保存">
+                    <i class="fa-solid fa-floppy-disk text-cyan-400"></i>
+                    <span class="hidden sm:inline">保存</span>
+                </button>
+                <button id="btn-reset-all" class="px-2.5 py-2 bg-slate-900 hover:bg-rose-950/60 text-xs text-slate-400 hover:text-rose-400 font-bold rounded-xl transition border border-slate-800" title="チェック状態をリセット">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- メインタブナビゲーション -->
+        <nav class="border-t border-slate-800/80 bg-slate-950/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-2 overflow-x-auto py-2">
+                <button class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 border border-transparent text-slate-300 hover:text-white" data-tab="tab-overall">
+                    <i class="fa-solid fa-chart-pie text-sm"></i>
+                    <span>全体ロードマップ ＆ マイルストーン</span>
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 border border-transparent text-slate-300 hover:text-white" data-tab="tab-phased">
+                    <i class="fa-solid fa-stairs text-sm"></i>
+                    <span>無期限無料 ➔ 有料化ハイブリッド戦略</span>
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 border border-transparent text-slate-300 hover:text-white" data-tab="tab-articles">
+                    <i class="fa-solid fa-file-lines text-sm"></i>
+                    <span>記事制作 ＆ トラフィック動線管理</span>
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 border border-transparent text-slate-300 hover:text-white" data-tab="tab-github">
+                    <i class="fa-brands fa-github text-sm text-cyan-400"></i>
+                    <span>Phase 2: GitHub 連携 ＆ 管制塔移行</span>
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 border border-transparent text-slate-300 hover:text-white" data-tab="tab-assets">
+                    <i class="fa-solid fa-cubes-stacked text-sm"></i>
+                    <span>実務アセット管理 ＆ UGC待機</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- メインコンテンツ領域 -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-5">
+
+        <!-- 📌 【新戦略バナー：オピニオン放流達成 ＆ 週明け逆流リンク着火シフト】 -->
+        <div class="bg-gradient-to-r from-emerald-950/50 via-slate-900 to-sky-950/40 border border-emerald-500/60 rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 glow-emerald">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-emerald-950 border border-emerald-500/60 text-emerald-400 flex items-center justify-center text-base flex-shrink-0">
+                    <i class="fa-solid fa-paper-plane text-emerald-400"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-mono text-emerald-400 font-bold px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500/40 uppercase">
+                            PHASE 1 COMPLETE // SEPT 30 DEPLOYED
+                        </span>
+                        <span class="text-xs font-bold text-white">オピニオン記事放流完了！ 逆流リンク未配備で「129 imp / 1スキ」の完全自走達成！</span>
+                    </div>
+                    <p class="text-xs text-slate-300 mt-0.5">
+                        【新戦略】：逆流リンクは急がず、週末（10/1〜10/4）までオピニオン単体の実力値を完全定点観測。Phase 2直前の週明け（10/5 月 午前）に開通させ、第2段ブーストを着火！
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0 flex-wrap">
+                <label class="flex items-center gap-1.5 text-xs text-emerald-300 font-bold cursor-pointer bg-slate-950/80 px-2.5 py-1.5 rounded-xl border border-emerald-500/40">
+                    <input type="checkbox" id="task-quick-opinion-live" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0" checked>
+                    <span>9/30 オピニオン放流済 🎯</span>
+                </label>
+                <label class="flex items-center gap-1.5 text-xs text-sky-300 font-bold cursor-pointer bg-slate-950/80 px-2.5 py-1.5 rounded-xl border border-sky-500/40">
+                    <input type="checkbox" id="task-quick-organic-watching" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0" checked>
+                    <span>週末オーガニック定点観測中</span>
+                </label>
+                <label class="flex items-center gap-1.5 text-xs text-purple-300 font-bold cursor-pointer bg-slate-950/80 px-2.5 py-1.5 rounded-xl border border-purple-500/40">
+                    <input type="checkbox" id="task-quick-backlinks-monday" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-purple-500 focus:ring-0">
+                    <span>10/5(月) 逆流リンク開通予定</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- TAB 1: 全体ロードマップ ＆ マイルストーン (Overall Release)          -->
+        <!-- =================================================================== -->
+        <section id="tab-overall" class="tab-content space-y-6">
+            
+            <!-- サマリーハイライトカード -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-slate-900 border border-emerald-500/60 rounded-2xl p-4 flex items-center gap-3 glow-emerald">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div>
+                        <div class="text-[11px] font-mono text-emerald-400 font-bold uppercase">HISTORIC MILESTONE</div>
+                        <div class="text-sm font-bold text-white">累計 1,096 imp 突破！</div>
+                        <div class="text-[11px] text-emerald-300 font-bold">総PV 106 / 10スキ到達 🎉</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-pink-500/50 rounded-2xl p-4 flex items-center gap-3 glow-burst">
+                    <div class="w-10 h-10 rounded-xl bg-pink-950 border border-pink-500/40 text-pink-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div class="text-[11px] font-mono text-pink-400 font-bold uppercase">Main Engine</div>
+                        <div class="text-sm font-bold text-white">『誘い』#6 : 215 imp / 7スキ</div>
+                        <div class="text-[11px] text-pink-300 font-bold">20PV・スキ率35%の怪物記事 🌟</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-sky-500/40 rounded-2xl p-4 flex items-center gap-3 glow-card">
+                    <div class="w-10 h-10 rounded-xl bg-sky-950 border border-sky-500/40 text-sky-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-feather-pointed"></i>
+                    </div>
+                    <div>
+                        <div class="text-[11px] font-mono text-sky-400 font-bold uppercase">Organic Solo Run</div>
+                        <div class="text-sm font-bold text-white">オピニオン 129 imp / 1スキ</div>
+                        <div class="text-[11px] text-sky-300 font-bold">逆流リンクなしで完全自走 🕊️</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-cyan-500/50 rounded-2xl p-4 flex items-center gap-3 glow-github">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-950 border border-cyan-500/40 text-cyan-400 flex items-center justify-center text-lg">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-[11px] font-mono text-cyan-400 font-bold uppercase">Next Step // Phase 2</div>
+                        <div class="text-sm font-bold text-white">GitHub ＆ 管制塔移行</div>
+                        <div class="text-[11px] text-cyan-300 font-bold">10/1〜10/3 リポジトリ構築 🐙</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 全体ロードマップ ＆ マイルストーン表 -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 glow-card space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                    <div>
+                        <h2 class="text-base font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-timeline text-cyan-400"></i>
+                            <span>マスターマイルストーン管理（オピニオン放流達成 ＆ 週明け逆流リンク同期版）</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            9/29メガバースト（337 imp）と9/30オピニオン放流初日（129 imp）を経て、週末のオーガニック自走観測 ➔ 週明け逆流点火 ➔ 10/7定価改定へ
+                        </p>
+                    </div>
+                    <span class="text-xs font-mono text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-500/30">
+                        Phase 1 Succeeded 🎯
+                    </span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 font-mono">
+                                <th class="py-2.5 px-3">STATUS</th>
+                                <th class="py-2.5 px-3">MILESTONE</th>
+                                <th class="py-2.5 px-3">TARGET</th>
+                                <th class="py-2.5 px-3">DEFINITION OF DONE (達成基準)</th>
+                                <th class="py-2.5 px-3">ACTION NOTE</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-sans">
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m0" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-emerald-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-bullhorn text-xs"></i>
+                                    <span>M0: トレーラー初版公開 ＆ 相互リンク設置</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-emerald-400 font-bold">9/18 済</td>
+                                <td class="py-3 px-3 text-slate-300">無料総合案内公開完了、過去記事へのカードリンク配備で逆流流入を開始</td>
+                                <td class="py-3 px-3 text-slate-400">公開完了・定着済</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m1" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-emerald-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-check text-xs"></i>
+                                    <span>M1: 記事②（スライド）＆記事③（顛末記）原稿独立化</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-emerald-400 font-bold">9/20 済</td>
+                                <td class="py-3 px-3 text-slate-300">記事②（スライド教材）と記事③（実録顛末記）の完全独立原稿化完了</td>
+                                <td class="py-3 px-3 text-slate-400">独立マークダウン化完了</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m2-new" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-emerald-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-sliders text-xs"></i>
+                                    <span>M2: note下書き配備 ＆ アイキャッチ完備</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-emerald-400 font-bold">9/25 済</td>
+                                <td class="py-3 px-3 text-slate-300">3本の下書き配置、全アイキャッチ配備、単体500円設定完了</td>
+                                <td class="py-3 px-3 text-slate-400">ZIP添付・レイアウト確認完了</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m3-new" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-emerald-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-rocket text-xs"></i>
+                                    <span>M3: Phase 1 正式ローンチ＆総合案内公開達成</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-emerald-400 font-bold">9/25-26 済</td>
+                                <td class="py-3 px-3 text-slate-300">有料マガジン開設、初期3本即時公開、総合案内を新装公開</td>
+                                <td class="py-3 px-3 text-slate-400">マガジンオープン完了</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m3-art1-update" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-emerald-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-images text-xs"></i>
+                                    <span>M3.2: 記事① 実録証拠（画像3枚対比）反映完了</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-emerald-400 font-bold">9/27 済</td>
+                                <td class="py-3 px-3 text-slate-300">第2章にBefore 1/2 ➔ Afterの画像3枚と解説を反映。箇条書きスマホ調整完了</td>
+                                <td class="py-3 px-3 text-slate-400">PV 24 ➔ 37へ急伸・首位独走</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m3-soft-landing" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-emerald-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-feather text-emerald-400"></i>
+                                    <span>M3.3: 「先着30名枠」一本化 ＆ 軟着陸完了</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-emerald-400 font-bold">9/27 済</td>
+                                <td class="py-3 px-3 text-slate-200">マガジン説明、総合案内、記事①〜③から「週末48時間」を削り、先着30名限定の数量枠へ純化</td>
+                                <td class="py-3 px-3 text-slate-400">自然体での受付を継続中</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m3-backlinks-update" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-emerald-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-link text-emerald-400"></i>
+                                    <span>M3.35: 第6回・『誘い』#2 末尾リンク改訂（パターンA）</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-emerald-400 font-bold">9/27-28 済</td>
+                                <td class="py-3 px-3 text-slate-200">第6回PVが倍増、記事②が6PVへ即座に伸長！逆流パイプライン定着</td>
+                                <td class="py-3 px-3 text-slate-400">定着・検証完了</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition bg-pink-950/20">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m3-invitation6-burst" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-pink-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-pink-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-bolt-lightning text-xs"></i>
+                                    <span>M3.36: 『誘い』#6 怪物化（215 imp / 20 PV / 7スキ達成）</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-pink-400 font-bold">9/29 (火) 済</td>
+                                <td class="py-3 px-3 text-slate-200">200imp超えの巨大エンジンへ成長。アカウント過去最高337impを牽引</td>
+                                <td class="py-3 px-3 text-slate-400">アカウント最大の大動脈へ進化！</td>
+                            </tr>
+                            <!-- ★M4: オピニオン無料放流 達成完了！ -->
+                            <tr class="hover:bg-slate-800/30 transition bg-emerald-950/30">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m4-done" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-emerald-300 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                    <span>M4: 【9/30 12:00達成】オピニオン記事 note無期限無料放流完了</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-emerald-400 font-bold">9/30 (水) 済</td>
+                                <td class="py-3 px-3 text-slate-200">國學院大コンテスト参加、公開半日で129 imp / 1スキ獲得、アカウント累計1,000 imp突破！</td>
+                                <td class="py-3 px-3 text-emerald-400 font-bold">放流大成功 🎯</td>
+                            </tr>
+                            <!-- ★M4.1 新規：週末オーガニック自走定点観測 -->
+                            <tr class="hover:bg-slate-800/30 transition bg-sky-950/20">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m4-1-watching" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-sky-400 focus:ring-0 cursor-pointer" checked>
+                                </td>
+                                <td class="py-3 px-3 font-bold text-sky-300 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-eye text-sky-400"></i>
+                                    <span>M4.1: 【週末定点観測】オピニオン完全オーガニック自走の追跡</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-sky-400 font-bold">10/1 〜 10/4</td>
+                                <td class="py-3 px-3 text-slate-300">逆流リンクをあえて貼らず、公式タグ・おすすめフィード単体の実力値（PV・スキ）を週末まで測定。</td>
+                                <td class="py-3 px-3 text-sky-300 font-semibold">自走観測中 🕊️</td>
+                            </tr>
+                            <!-- ★M4.5: Phase 2 GitHubリポジトリ開設 ＆ ダッシュボード移行 -->
+                            <tr class="hover:bg-slate-800/30 transition bg-cyan-950/30">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m4-5-github" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-cyan-400 focus:ring-0 cursor-pointer">
+                                </td>
+                                <td class="py-3 px-3 font-bold text-cyan-300 flex items-center gap-1.5">
+                                    <i class="fa-brands fa-github text-xs text-cyan-400"></i>
+                                    <span>M4.5: 【Phase 2 基盤】GitHubリポジトリ開設 ＆ 管制塔ホスティング移行</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-cyan-400">10/1 〜 10/3</td>
+                                <td class="py-3 px-3 text-slate-300">`reiwa-2ps-toolkit` リポジトリ作成。管理ダッシュボード（`dashboard/index.html`）をPagesへ配備しクラウド管制塔化。</td>
+                                <td class="py-3 px-3 text-cyan-300 font-semibold">着手準備完了 🐙</td>
+                            </tr>
+                            <!-- ★M4.8 新規：週明け逆流リンク開通 -->
+                            <tr class="hover:bg-slate-800/30 transition bg-purple-950/30">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m4-8-backlinks" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-purple-400 focus:ring-0 cursor-pointer">
+                                </td>
+                                <td class="py-3 px-3 font-bold text-purple-300 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-arrows-turn-to-dots text-purple-400"></i>
+                                    <span>M4.8: 【週明け第2段点火】『誘い』#6 ＆ 総合案内 逆流リンク開通</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-purple-400 font-bold">10/5 (月) 午前</td>
+                                <td class="py-3 px-3 text-slate-300">週末の落ち着く月曜日に『誘い』#6（215 imp）からオピニオンへ逆流リンクを着火。全面導線をPhase 2へ合流。</td>
+                                <td class="py-3 px-3 text-purple-300 font-semibold">週明け実行 🔄</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m5-new" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-purple-500 focus:ring-0 cursor-pointer">
+                                </td>
+                                <td class="py-3 px-3 font-bold text-white flex items-center gap-1.5">
+                                    <i class="fa-solid fa-code text-xs text-purple-400"></i>
+                                    <span>M5: 記事④（ツールWeb）＆記事⑤（コーパスWeb）構築 ＆ ZIP同期</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-purple-400">10/4 〜 10/5</td>
+                                <td class="py-3 px-3 text-slate-300">2PSワークベンチ（tool/）、全10話原本エクスプローラー（corpus/）を単一HTML構築。GitHub ReleasesでZIP生成。</td>
+                                <td class="py-3 px-3 text-slate-400">Web＋ZIPの二重配備</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m6-new" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-purple-500 focus:ring-0 cursor-pointer">
+                                </td>
+                                <td class="py-3 px-3 font-bold text-purple-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-crown text-xs"></i>
+                                    <span>M6: Phase 2 完全版アップデート ＆ 定価改定</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-purple-400 font-bold">10/7 (水) 20:00</td>
+                                <td class="py-3 px-3 text-slate-300">note記事④＆⑤にPages限定URLと確定ZIPを格納。定価980円へ移行。</td>
+                                <td class="py-3 px-3 text-slate-400">追加公開＆価格改定</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition">
+                                <td class="py-3 px-3">
+                                    <input type="checkbox" id="ms-m-ugc" class="task-checkbox w-4 h-4 rounded bg-slate-950 border-slate-700 text-slate-500 focus:ring-0 cursor-pointer">
+                                </td>
+                                <td class="py-3 px-3 font-bold text-slate-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-bullhorn text-slate-500"></i>
+                                    <span>M3.5: 【初成約後トリガー】2PS装丁リファクタリング募集</span>
+                                </td>
+                                <td class="py-3 px-3 font-mono text-slate-400">初売上発生後</td>
+                                <td class="py-3 px-3 text-slate-400">購入者が現れた段階で、実践レポート募集を適切な温度感でアナウンス（空振り防止）</td>
+                                <td class="py-3 px-3 text-slate-500">売上確認まで待機</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 視覚的ローンチアーキテクチャ図 -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
+                <div class="text-xs font-bold text-slate-300 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-network-wired text-cyan-400"></i>
+                    <span>「オピニオン完全自走 ➔ 週末GitHub構築 ➔ 週明け逆流点火 ➔ Phase 2 980円改定」最新パイプライン</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs font-mono">
+                    <div class="p-3.5 rounded-xl bg-slate-950 border border-emerald-500/50 space-y-1.5 glow-emerald">
+                        <div class="flex items-center justify-between">
+                            <span class="text-emerald-400 font-bold text-[10px]">STAGE 1 : 9/30 済</span>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30">放流完了 🎯</span>
+                        </div>
+                        <div class="font-sans font-bold text-white text-xs">オピニオン無期限放流</div>
+                        <p class="font-sans text-slate-400 text-[11px] leading-relaxed">
+                            129 imp / 1スキ獲得。公式タグ `#疑問が学びに変わるとき` でnoteの海へ自律着火。
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-slate-950 border border-cyan-500/50 space-y-1.5 glow-github">
+                        <div class="flex items-center justify-between">
+                            <span class="text-cyan-400 font-bold text-[10px]">STAGE 2 : 10/1〜10/4</span>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30">並行開発 🐙</span>
+                        </div>
+                        <div class="font-sans font-bold text-white text-xs">GitHub ＆ 管制塔移行</div>
+                        <p class="font-sans text-slate-400 text-[11px] leading-relaxed">
+                            オピニオンの自走を静観しつつ、リポジトリ作成・ダッシュボードPages化・④⑤ツール開発に集中。
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-slate-950 border border-purple-500/50 space-y-1.5 glow-purple">
+                        <div class="flex items-center justify-between">
+                            <span class="text-purple-400 font-bold text-[10px]">STAGE 3 : 10/5(月) 午前</span>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-500/30">第2段点火 🔄</span>
+                        </div>
+                        <div class="font-sans font-bold text-white text-xs">逆流リンク開通 ＆ 合流</div>
+                        <p class="font-sans text-slate-400 text-[11px] leading-relaxed">
+                            『誘い』#6（215 imp）と総合案内にオピニオンリンクを配備し、週明けトラフィックを急加速！
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-slate-950 border border-purple-500/40 space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-purple-400 font-bold text-[10px]">STAGE 4 : 10/7 20:00</span>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-500/30">定価改定 🎉</span>
+                        </div>
+                        <div class="font-sans font-bold text-white text-xs">完全版UP ＆ 980円移行</div>
+                        <p class="font-sans text-slate-400 text-[11px] leading-relaxed">
+                            Releases ZIPとPages URLをnote有料エリアへ配備。圧倒的価値で980円へ堂々移行。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 2: 無期限無料 ➔ 有料化ハイブリッド戦略 (Phased & Strategy)       -->
+        <!-- =================================================================== -->
+        <section id="tab-phased" class="tab-content hidden space-y-6">
+
+            <!-- ハイブリッド公開方針の確認カード -->
+            <div class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/40 rounded-2xl p-5 space-y-4 glow-emerald">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40">
+                                HYBRID STRATEGY // LIVE ON NOTE
+                            </span>
+                            <span class="text-xs text-emerald-400 font-bold">無期限無料放流 ➔ 完全オーガニック自走観測フェーズ</span>
+                        </div>
+                        <h3 class="text-base font-black text-white mt-1">なぜ「逆流リンクを週明けまで温存する」ことが極めて美しい判断なのか？</h3>
+                        <p class="text-xs text-slate-400">『誘い』#6に頼らないオピニオン自体の純粋な求心力を週末まで測定し、月曜の谷間に第二段ロケットとして着火する</p>
+                    </div>
+                    <span class="text-xs font-mono text-emerald-300 bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-500/40">
+                        Status: オーガニック定点観測中
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+                    <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                        <div class="text-[10px] font-mono font-bold text-sky-400">① 真のベースライン測定</div>
+                        <div class="font-bold text-white">オピニオン自走力の把握</div>
+                        <p class="text-slate-400 text-[11px]">
+                            既存読者によるブーストを混ぜず、公式タグやnoteおすすめフィードからの純粋な流入ポテンシャルを週末まで見極める。
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 bg-slate-950 rounded-xl border border-purple-500/40 space-y-2">
+                        <div class="text-[10px] font-mono font-bold text-purple-400">② 週明けの第2段ブースト</div>
+                        <div class="font-bold text-white">トラフィック谷間の特効薬</div>
+                        <p class="text-slate-400 text-[11px]">
+                            アクセスが落ち着く月曜日に『誘い』#6（215 imp）からの逆流パイプラインを開通させ、オピニオン記事へ特大燃料を再供給。
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 bg-slate-950 rounded-xl border border-cyan-500/40 space-y-2">
+                        <div class="text-[10px] font-mono font-bold text-cyan-400">③ 制作リズムの最適化</div>
+                        <div class="font-bold text-white">GitHub開発への集中</div>
+                        <p class="text-slate-400 text-[11px]">
+                            週末（10/1〜10/4）は余計な設定作業に追われず、GitHubリポジトリ構築とWebアセット化に100%集中できる。
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 bg-slate-950 rounded-xl border border-emerald-500/40 space-y-2">
+                        <div class="text-[10px] font-mono font-bold text-emerald-400">④ 10/7 定価改定への助走</div>
+                        <div class="font-bold text-white">全導線の最終結合</div>
+                        <p class="text-slate-400 text-[11px]">
+                            週明けに全リンクを同期し、10/7（水）のPhase 2完全版（980円改定）に向けてアカウント全体の熱量をピークへ持っていく。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 将来有料化へ切り替える場合の3大シナリオ -->
+            <div class="bg-gradient-to-r from-slate-900 to-purple-950/30 border border-slate-800 rounded-2xl p-5 space-y-4">
+                <div class="border-b border-slate-800 pb-3">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-route text-purple-400"></i>
+                        <span>将来有料化へ切り替える場合の「3大シナリオ（出口戦略）」</span>
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">読者心理を損なわず、高い納得感と付加価値をもって切り替えるための運用パターン</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-mono font-bold text-sky-400">SCENARIO A</span>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-sky-950 text-sky-300 border border-sky-500/30">加筆昇格</span>
+                        </div>
+                        <div class="font-bold text-white text-xs sm:text-sm">【プレミアム増補版】実践ノウハウ加筆</div>
+                        <p class="text-slate-400 text-[11px] leading-relaxed">
+                            PVやスキが大きく伸びた後、後半に「明日から使える引き算プロンプト構文」を大幅加筆し、単体500円（またはマガジン限定）へ昇格。初期読者への恩義を保ちつつ堂々販売。
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-slate-950 rounded-xl border border-purple-500/40 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-mono font-bold text-purple-400">SCENARIO B</span>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-950 text-purple-300 border border-purple-500/30">特典編入</span>
+                        </div>
+                        <div class="font-bold text-white text-xs sm:text-sm">【マガジン編入型】Phase 2 完全版特典</div>
+                        <p class="text-slate-400 text-[11px] leading-relaxed">
+                            10/7（水）のPhase 2完全版アップデート時に、「大好評につき公式第6記事としてマガジンへアーカイブ」として編入。定価980円への引き上げに対する強力な追加特典に活用。
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-slate-950 rounded-xl border border-emerald-500/40 space-y-2 bg-emerald-950/10">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-mono font-bold text-emerald-400">SCENARIO C ★本命</span>
+                            <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30">永久無料</span>
+                        </div>
+                        <div class="font-bold text-white text-xs sm:text-sm">【永久アンバサダー型】無料のまま維持</div>
+                        <p class="text-slate-400 text-[11px] leading-relaxed">
+                            この記事経由で有料マガジン（500円/980円）が安定して売れ続ける場合、あえて有料化せず無料看板として永久開放。記事単体を売るより中長期の売上総額とファン増加が最大化。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 3: 記事制作 ＆ トラフィック動線管理 (Articles & Traffic)         -->
+        <!-- =================================================================== -->
+        <section id="tab-articles" class="tab-content hidden space-y-6">
+
+            <div class="bg-gradient-to-r from-slate-900 to-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-base font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-cyan-400"></i>
+                        <span>全20記事制作 ＆ トラフィック動線パイプライン</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        アカウント累計1,096 imp突破。オピニオン放流完了、二大巨頭（誘い#6 ＆ オピニオン）が独立自走中。
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-mono text-emerald-400 bg-emerald-950 px-3 py-1 rounded-lg border border-emerald-500/30">
+                        Total: 1,096 imp / 106 PV / 10スキ 🌟
+                    </span>
+                </div>
+            </div>
+
+            <!-- 記事リストカード -->
+            <div class="space-y-4">
+
+                <!-- ★オピニオン記事（放流完了 ＆ 完全オーガニック自走中） -->
+                <div class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/60 rounded-2xl p-5 space-y-3 glow-emerald">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-950 border border-emerald-500/50 text-emerald-400 font-mono text-xs font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-check text-[11px]"></i>
+                                <span>公開中（9/30 12:00放流済）</span>
+                            </span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-black text-white">『なぜAIは「そぎ落とす」ことが苦手なのか？ ── 確率生成の足し算バイアスと、人間が担う「引き算（禅）の美学」』</h3>
+                                <p class="text-xs text-emerald-300 mt-0.5">國學院大學コンテスト `#疑問が学びに変わるとき` 参加中 / 完全無期限無料放流</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-slate-950 border border-emerald-500/30">初日 129 imp / 1スキ点灯 🎯</span>
+                            <span class="text-xs font-mono text-slate-400">約5,300字</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1.5">
+                            <div class="font-bold text-slate-300">公開実績 ＆ 導線仕様（確定版）：</div>
+                            <ul class="list-disc pl-4 text-slate-400 space-y-0.5">
+                                <li class="text-emerald-300 font-semibold">確定URL: <a href="https://note.com/skoby3739/n/n34f5e2eb47d5" target="_blank" class="text-cyan-400 underline">https://note.com/skoby3739/n/n34f5e2eb47d5</a></li>
+                                <li>満月アイキャッチ第2版（ピクサー調・秋の禅寺・塀なし）適用</li>
+                                <li>「掛け算のゼロ比喩」による小学生算数レベルの直感的腹落ち</li>
+                                <li>結び末尾「──完」による映画的余韻</li>
+                                <li>References直下配置による学術的オーソリティの即時完結</li>
+                                <li>実演Spec ＆ 過去記事案内（パターンA）内包</li>
+                                <li class="text-orange-300 font-semibold">最末尾CTA：マガジン早割500円への完璧なファネル着地</li>
+                            </ul>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2">
+                            <div class="font-bold text-slate-300">最新トラフィック運用チェックリスト：</div>
+                            <div class="space-y-1.5">
+                                <label class="flex items-center gap-2 text-emerald-300 font-bold cursor-pointer">
+                                    <input type="checkbox" id="art-op-live-check" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0" checked>
+                                    <span>9/30 12:00 公開ボタン押下 ＆ コンテスト参加（済）</span>
+                                </label>
+                                <label class="flex items-center gap-2 text-sky-300 font-bold cursor-pointer">
+                                    <input type="checkbox" id="art-op-organic-check" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-sky-400 focus:ring-0" checked>
+                                    <span>逆流リンク未配備での「完全オーガニック自走」観測中（済）</span>
+                                </label>
+                                <label class="flex items-center gap-2 text-purple-300 font-bold cursor-pointer">
+                                    <input type="checkbox" id="art-op-monday-backlinks" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-purple-400 focus:ring-0">
+                                    <span>10/5(月) 午前：『誘い』#6 ＆ 総合案内へ「逆流リンク」追記</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🌟 『誘い』#6：215 imp / 7スキの怪物エンジン -->
+                <div class="bg-slate-900/90 border border-pink-500/60 rounded-2xl p-5 space-y-3 glow-burst">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-pink-950 border border-pink-500/50 text-pink-400 font-mono text-xs font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-fire text-[11px]"></i>
+                                <span>大動脈エンジン（200imp突破）</span>
+                            </span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-black text-white">『Agentic AI への誘い #6：指示なき自律創世』</h3>
+                                <p class="text-xs text-pink-300 mt-0.5">215 imp / 20 PV / 7スキ（スキ率 35.0%）の最高エンゲージメント記事</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-purple-400 font-bold px-2 py-0.5 rounded bg-purple-950 border border-purple-500/30">逆流リンク 10/5着火待機中 ⏳</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-300">
+                        現在アカウント内で最も読者を惹きつけている最強の火柱。10月5日（月）にオピニオン記事への逆流リンクを添えるだけで、この20名の熱狂的読者群がそのままオピニオンへと合流する第二段バーストが確定しています。
+                    </p>
+                </div>
+
+                <!-- 記事 1: 【本体・理論編】★37PV到達・首位独走 -->
+                <div class="bg-slate-900/90 border border-sky-500/60 rounded-2xl p-5 space-y-3 glow-card">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-500/40 text-sky-400 font-mono text-xs font-bold">
+                                📄 記事 ①
+                            </span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-black text-white">『🎨 画像生成の2PSメソッド ── なぜ直接書いてはいけないのか？ その思想と工学メカニズム』</h3>
+                                <p class="text-xs text-sky-300 mt-0.5">本体・理論編（153 imp / 37 PV / CTR 24.2% / アカウント最多PV独走中 🎯）</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-sky-400 font-bold px-2 py-0.5 rounded bg-sky-950 border border-sky-500/30">37名待機中 🎯</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 記事 0: マガジン総合案内（無料） -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-500/40 text-sky-400 font-mono text-xs font-bold">
+                                📢 無料総合案内
+                            </span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-black text-white">『【総合案内】画像生成の2PSメソッド ── 物語の書き手に贈る装丁工学キット』</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">マガジン常設ハブ（81 imp / 19 PV / CTR 23.5% / 不動の母港）</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-sky-400 font-bold px-2 py-0.5 rounded bg-sky-950 border border-sky-500/30">先着30名枠稼働中</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 記事 2: 【教材スライド＆空間調律編】 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold">
+                                🎬 記事 ②
+                            </span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-black text-white">『【講義スライドWebビューア】第6回実録：Why & Intent による空間調律プロトコル』</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">教材スライド＆空間調律編（141 imp / 6 PV・安定露出）</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/30">公開販売中 ✅</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 記事 3: 【実録ドキュメンタリー編】 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold">
+                                📖 記事 ③
+                            </span>
+                            <div>
+                                <h3 class="text-sm sm:text-base font-black text-white">『【実録顛末記】文字だらけのフロー図から「引き算の美学」へ至った全記録』</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">実録ドキュメンタリー編（136 imp / 6 PVへ伸長！ オピニオンと共鳴中）</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/30">公開販売中 ✅</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 4: Phase 2: GitHub 連携 ＆ 管制塔移行 (GitHub & Pipeline)       -->
+        <!-- =================================================================== -->
+        <section id="tab-github" class="tab-content hidden space-y-6">
+
+            <div class="bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-cyan-500/50 rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 glow-github">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-mono text-cyan-400 font-bold px-2 py-0.5 rounded bg-cyan-950 border border-cyan-500/40">
+                            PHASE 2 DEPLOYMENT & VERSION PIPELINE
+                        </span>
+                        <span class="text-xs text-cyan-300 font-bold">Git一元バージョン管理 ＆ 管制塔ホスティング</span>
+                    </div>
+                    <h2 class="text-base font-black text-white flex items-center gap-2 mt-1">
+                        <i class="fa-brands fa-github text-cyan-400"></i>
+                        <span>GitHub リポジトリ連携 ＆ リリース自動同期プロトコル</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        オピニオン放流完了に伴い、明日10月1日より開始する記事④ツール・記事⑤原本集のWebアセット化と本ダッシュボードのクラウド管制塔化。
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-mono text-cyan-400 bg-cyan-950/80 px-3 py-1 rounded-lg border border-cyan-500/40">
+                        Status: Ready for Oct 1 Kickoff 🐙
+                    </span>
+                </div>
+            </div>
+
+            <!-- リポジトリ構成 ＆ 三位一体連携マップ -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="font-bold text-white flex items-center gap-1.5">
+                            <i class="fa-solid fa-folder-tree text-cyan-400"></i>
+                            <span>リポジトリ構造案</span>
+                        </span>
+                        <span class="text-[10px] font-mono text-cyan-400">reiwa-2ps-toolkit</span>
+                    </div>
+                    <div class="font-mono text-[11px] text-slate-300 space-y-1 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div>reiwa-2ps-toolkit/</div>
+                        <div class="pl-3 text-slate-400">├── README.md</div>
+                        <div class="pl-3 text-slate-400">├── index.html <span class="text-cyan-400">(読者ポータル)</span></div>
+                        <div class="pl-3 text-emerald-400">├── dashboard/ <span class="text-slate-400">(🎛️ 本管制塔)</span></div>
+                        <div class="pl-3 text-sky-400">├── tool/ <span class="text-slate-400">(🛠️ 記事④ ワークベンチ)</span></div>
+                        <div class="pl-3 text-purple-400">├── corpus/ <span class="text-slate-400">(📚 記事⑤ 原本集)</span></div>
+                        <div class="pl-3 text-amber-400">└── releases/ <span class="text-slate-400">(確定ZIP同期)</span></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        完全単一HTML思想により、オンライン（Pages）でもオフライン（ZIP解凍）でも100%同一に動作。
+                    </p>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="font-bold text-white flex items-center gap-1.5">
+                            <i class="fa-solid fa-code-branch text-sky-400"></i>
+                            <span>Git バージョン管理の利点</span>
+                        </span>
+                        <span class="text-[10px] font-mono text-emerald-400">Single Source of Truth</span>
+                    </div>
+                    <ul class="text-[11px] text-slate-300 space-y-2">
+                        <li class="flex items-start gap-1.5">
+                            <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                            <span><strong>Git Diff による完全な変更追跡:</strong> プロンプト構文や監査計算式の改訂差分を永久記録。</span>
+                        </li>
+                        <li class="flex items-start gap-1.5">
+                            <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                            <span><strong>Releases による確定ZIP自動生成:</strong> `v1.0.0` のタグ発行と同時に配布用アーカイブが生成。</span>
+                        </li>
+                        <li class="flex items-start gap-1.5">
+                            <i class="fa-solid fa-check text-emerald-400 mt-0.5"></i>
+                            <span><strong>WebとZIPのズレゼロ保証:</strong> 同一リポジトリから生成されるため配布事故を物理的に根絶。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="font-bold text-white flex items-center gap-1.5">
+                            <i class="fa-solid fa-cloud text-purple-400"></i>
+                            <span>ダッシュボード移行の価値</span>
+                        </span>
+                        <span class="text-[10px] font-mono text-purple-400">Cloud Control Tower</span>
+                    </div>
+                    <p class="text-[11px] text-slate-300 leading-relaxed">
+                        本ダッシュボード（`launch_management_dashboard.html`）をリポジトリ内の `dashboard/index.html` として配置することで、ブラウザからいつでもどこでも安全にアクセスできる**非公開Web管制塔**へと進化します。端末間の同期ズレやファイル紛失が解消されます。
+                    </p>
+                    <div class="p-2 rounded bg-purple-950/40 border border-purple-500/30 text-[10px] text-purple-300 font-mono">
+                        URL: https://[ユーザー名].github.io/reiwa-2ps-toolkit/dashboard/
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Phase 2 実行タスクチェックリスト -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-4">
+                <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-cyan-400"></i>
+                            <span>Phase 2（10/1〜10/7）開発・移行ステップ管理</span>
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">オピニオン放流完了後に進める標準オペレーション</p>
+                    </div>
+                    <span class="text-xs font-mono text-slate-400">0 / 6 COMPLETED</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div class="space-y-2 p-3 bg-slate-950 rounded-xl border border-slate-800">
+                        <div class="font-bold text-cyan-400 text-[11px]">【Step 1：インフラ ＆ 管制塔移行】</div>
+                        <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" id="git-task-1" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0">
+                            <span>GitHub に `reiwa-2ps-toolkit` リポジトリを新規作成</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" id="git-task-2" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0">
+                            <span>本ダッシュボードを `dashboard/index.html` としてコミット</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" id="git-task-3" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 focus:ring-0">
+                            <span>GitHub Pages を有効化（`noindex` メタタグによる限定運用）</span>
+                        </label>
+                    </div>
+
+                    <div class="space-y-2 p-3 bg-slate-950 rounded-xl border border-slate-800">
+                        <div class="font-bold text-purple-400 text-[11px]">【Step 2：アセット構築 ＆ note配備】</div>
+                        <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" id="git-task-4" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-purple-500 focus:ring-0">
+                            <span>記事④ 2PSワークベンチ（`tool/index.html`）の単一HTML実装</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" id="git-task-5" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-purple-500 focus:ring-0">
+                            <span>記事⑤ 原本コーパス（`corpus/index.html`）の単一HTML実装</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" id="git-task-6" class="task-checkbox w-4 h-4 rounded bg-slate-900 border-slate-700 text-purple-500 focus:ring-0">
+                            <span>GitHub Releases で `v1.0.0` 発行 ＆ note有料エリアへ配備</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 5: 実務アセット管理 ＆ UGC待機 (Assets & Ops)                  -->
+        <!-- =================================================================== -->
+        <section id="tab-assets" class="tab-content hidden space-y-6">
+
+            <div class="bg-gradient-to-r from-slate-900 to-blue-950/40 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-base font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-screwdriver-wrench text-cyan-400"></i>
+                        <span>実務アセット管理 ＆ UGC企画トリガー設定</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        即戦力ツール、原本アーカイブ、および初成約発生後に発動するUGC企画の待機管理。
+                    </p>
+                </div>
+                <span class="text-xs font-mono text-cyan-400 bg-cyan-950 px-3 py-1 rounded-lg border border-cyan-500/30">
+                    Assets & Triggers
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+
+                <!-- Asset 1 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div class="space-y-2">
+                        <div class="flex items-start justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950 text-cyan-400 border border-cyan-500/30">
+                                ASSET ①
+                            </span>
+                            <span class="text-xs font-mono text-cyan-400 font-bold">80%</span>
+                        </div>
+                        <h3 class="text-xs font-black text-white">2PS自動生成メタ構文</h3>
+                        <p class="text-[11px] text-slate-400">本文末尾に貼るだけの一発自動生成プロンプト（tool/配備予定）</p>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-400 font-mono">
+                        記事 ④（ツール編）
+                    </div>
+                </div>
+
+                <!-- Asset 2 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div class="space-y-2">
+                        <div class="flex items-start justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950 text-amber-400 border border-amber-500/30">
+                                ASSET ②
+                            </span>
+                            <span class="text-xs font-mono text-amber-400 font-bold">75%</span>
+                        </div>
+                        <h3 class="text-xs font-black text-white">6大品質自己監査構文</h3>
+                        <p class="text-[11px] text-slate-400">仕様不備をAI自身に自己採点させる構文（tool/配備予定）</p>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-400 font-mono">
+                        記事 ④（ツール編）
+                    </div>
+                </div>
+
+                <!-- Asset 3 -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div class="space-y-2">
+                        <div class="flex items-start justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950 text-emerald-400 border border-emerald-500/30">
+                                ASSET ③
+                            </span>
+                            <span class="text-xs font-mono text-emerald-400 font-bold">100% ✅</span>
+                        </div>
+                        <h3 class="text-xs font-black text-white">スライドHTML ＆ 原本</h3>
+                        <p class="text-[11px] text-slate-400">全8スライド純化HTML ＋ ZIP教材 ＋ 顛末記</p>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-400 font-mono">
+                        記事 ②・③（公開中）
+                    </div>
+                </div>
+
+                <!-- Asset 4: UGC企画（待機トリガー） -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div class="space-y-2">
+                        <div class="flex items-start justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-950 text-slate-400 border border-slate-700">
+                                UGC CAMPAIGN
+                            </span>
+                            <span class="text-xs font-mono text-slate-400 font-bold">待機中 ⏳</span>
+                        </div>
+                        <h3 class="text-xs font-black text-white">実践レポート募集企画</h3>
+                        <p class="text-[11px] text-slate-400">購入者発生後にアナウンス。被リンク特典を提示</p>
+                        
+                        <div class="pt-2 space-y-1 text-[10px] text-slate-400 border-t border-slate-800">
+                            <div>トリガー: <strong>初売上発生の確認後</strong></div>
+                            <div>目的: 空振りを防ぎ、確実な参加者を歓迎</div>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-500 font-mono">
+                        初成約後に即発動可能
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-tab');
+                tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                tabContents.forEach(content => {
+                    if (content.id === targetId) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        const allCheckboxes = document.querySelectorAll('.task-checkbox');
+        const globalPercentageEl = document.getElementById('global-percentage');
+        const globalBarEl = document.getElementById('global-bar');
+        const globalDoneCountEl = document.getElementById('global-done-count');
+        const globalTotalCountEl = document.getElementById('global-total-count');
+
+        function updateGlobalProgress() {
+            const total = allCheckboxes.length;
+            let done = 0;
+
+            allCheckboxes.forEach(cb => {
+                if (cb.checked) {
+                    done++;
+                }
+            });
+
+            const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+            globalPercentageEl.innerText = `${percent}%`;
+            globalBarEl.style.width = `${percent}%`;
+            globalDoneCountEl.innerText = done;
+            globalTotalCountEl.innerText = total;
+        }
+
+        allCheckboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                updateGlobalProgress();
+            });
+        });
+
+        const STORAGE_KEY = 'reiwa_2ps_launch_dashboard_state_v19_sept30_organic_watching';
+
+        document.getElementById('btn-save-all').addEventListener('click', () => {
+            const state = {};
+            allCheckboxes.forEach(cb => {
+                state[cb.id] = cb.checked;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            
+            const btn = document.getElementById('btn-save-all');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i><span class="hidden sm:inline text-emerald-300">保存済</span>`;
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+            }, 1500);
+        });
+
+        document.getElementById('btn-reset-all').addEventListener('click', () => {
+            localStorage.removeItem(STORAGE_KEY);
+            location.reload();
+        });
+
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const state = JSON.parse(saved);
+                    allCheckboxes.forEach(cb => {
+                        if (state.hasOwnProperty(cb.id)) {
+                            cb.checked = state[cb.id];
+                        }
+                    });
+                } catch (e) {
+                    console.error("Failed to load saved state:", e);
+                }
+            }
+            updateGlobalProgress();
+        });
+    </script>
+</body>
+</html>
