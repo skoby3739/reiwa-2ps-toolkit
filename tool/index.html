@@ -2,11 +2,726 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow">
-    <title>準備中 | 令和レゾナンス</title>
+    <title>【2PSメソッド】公式ワークベンチ ｜ 完全2ステップ統合版</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background-color: #0b1120;
+            color: #f1f5f9;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+        .glow-card {
+            box-shadow: 0 0 25px -5px rgba(2, 132, 199, 0.15);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
+        }
+        .focus-glow-cyan:focus {
+            outline: none;
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35), 0 0 20px rgba(14, 165, 233, 0.25) !important;
+        }
+        .focus-glow-amber:focus {
+            outline: none;
+            border-color: #fbbf24 !important;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.4), 0 0 20px rgba(245, 158, 11, 0.25) !important;
+        }
+        .focus-glow-emerald:focus {
+            outline: none;
+            border-color: #34d399 !important;
+            box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.35), 0 0 20px rgba(16, 185, 129, 0.25) !important;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+            border-color: #38bdf8;
+        }
+        .tab-btn.active-step2 {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+            border-color: #34d399;
+        }
+    </style>
 </head>
-<body style="background:#0b1120;color:#94a3b8;font-family:sans-serif;padding:40px;text-align:center;">
-    <h1>Asset Preparing...</h1>
-    <p>Phase 2（10/7）公開予定のアセットです。</p>
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- ナビゲーションバー -->
+    <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-slate-950 text-lg font-black shadow-lg shadow-sky-500/20 hover:opacity-90 transition" title="公式アセットポータルへ戻る">
+                    <i class="fa-solid fa-cube text-white"></i>
+                </a>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="code-font text-[10px] font-bold px-2 py-0.5 rounded bg-sky-950 border border-sky-500/40 text-sky-400">
+                            ARTICLE ④ // 2-STEP PIPELINE
+                        </span>
+                        <span class="text-xs text-slate-400 hidden md:inline">note有料マガジン『画像生成の2PSメソッド』公式</span>
+                    </div>
+                    <h1 class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2 mt-0.5">
+                        <span>2PS自動生成 ＆ 自己監査ワークベンチ</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- 右側クイックアクション（読者向けにポータルとマガジンへ純化） -->
+            <div class="flex items-center gap-2">
+                <button type="button" id="btn-open-portal-modal" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-xs text-slate-300 font-bold rounded-xl transition flex items-center gap-1.5 border border-slate-800" title="ポータル画面へ戻る">
+                    <i class="fa-solid fa-house text-sky-400"></i>
+                    <span>ポータル</span>
+                </button>
+                <a href="https://note.com/skoby3739/m/m1e80c92833b6" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-xs text-white font-bold rounded-xl transition flex items-center gap-1.5 shadow-sm" target="_blank" rel="noopener noreferrer" title="noteマガジンを新しいタブで開く">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>マガジン</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-sky-200"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- ツール機能タブ（完全2ステップ化） -->
+        <nav class="border-t border-slate-800/80 bg-slate-950/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-2 overflow-x-auto py-2">
+                <button class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 border border-transparent text-slate-300 hover:text-white" data-tab="tab-step1">
+                    <i class="fa-solid fa-wand-magic-sparkles text-sm text-sky-400"></i>
+                    <span>Step 1: 【初手】2PS自動生成メタ構文</span>
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 border border-transparent text-slate-300 hover:text-white" data-tab="tab-step2">
+                    <i class="fa-solid fa-bolt-lightning text-sm text-emerald-400"></i>
+                    <span>Step 2: 【確定打】作家性適応型・辞書内蔵Linter</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+        <!-- =================================================================== -->
+        <!-- STEP 1: 【初手】2PS自動生成メタ構文                                  -->
+        <!-- =================================================================== -->
+        <section id="tab-step1" class="tab-content space-y-6">
+            
+            <div class="bg-gradient-to-r from-sky-950/40 via-slate-900 to-slate-900 border border-sky-500/40 rounded-2xl p-5 space-y-3 glow-card">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono text-sky-400 font-bold px-2 py-0.5 rounded bg-sky-950 border border-sky-500/40">
+                                TURN 1 // INITIAL SPEC INJECTION
+                            </span>
+                            <span class="text-xs text-sky-300 font-bold">執筆セッション末尾に貼るだけ</span>
+                        </div>
+                        <h2 class="text-base sm:text-lg font-black text-white mt-1">【Step 1】2PS自動生成メタ・プロンプト</h2>
+                    </div>
+                    <button id="btn-copy-meta" class="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs rounded-xl transition flex items-center gap-2 shadow-lg shadow-sky-500/20">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>メタ構文をワンクリックコピー</span>
+                    </button>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    note記事やエッセイの執筆を終えたAI（Gemini等）の<strong>まさに同一セッションの末尾</strong>に、以下の構文をそのまま貼り付けて送信してください。AIが本文の文脈・感情・温度感およびあなたの語彙傾向を自動解析し、第1段階の「日本語設計書（Spec）」と第2段階の「確定英語コード（Render）」を一発出力します。
+                </p>
+            </div>
+
+            <!-- コード表示カード -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-xs font-mono font-bold text-slate-400 flex items-center gap-2">
+                            <i class="fa-solid fa-code text-sky-400"></i>
+                            <span>コピペ用メタ構文（プロンプト本体）</span>
+                        </span>
+                        <!-- フォーカス時に動的表示されるステータスバッジ -->
+                        <span id="meta-status-badge" class="opacity-0 pointer-events-none transition-all duration-200 text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-cyan-950/90 border border-cyan-400/60 text-cyan-300 font-bold flex items-center gap-1.5 shadow-sm shadow-cyan-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                            <span>編集・文字入力中</span>
+                        </span>
+                    </div>
+                    <span class="text-[10px] font-mono text-slate-500">Plain Text / Prompt Spec</span>
+                </div>
+
+                <div class="relative">
+                    <!-- 直接編集・カスタマイズ可能 -->
+                    <textarea id="meta-syntax-text" class="w-full h-80 bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs font-mono text-slate-200 leading-relaxed focus-glow-cyan transition-all duration-200 resize-none selection:bg-sky-500 selection:text-slate-950">これまでの執筆セッションで紡いできた本文の文脈、テーマ、空気感、登場人物の感情を寸分違わぬ解像度で定着させるため、「画像生成の2PSメソッド（Two-Stage Prompt Spec）」に従って本記事の公式アイキャッチ（見出し画像）プロンプトを策定してください。
+
+以下の2段階（Spec ➔ Render）のフォーマットを厳格に遵守して出力してください：
+
+---
+### 🧭 【第1段階：日本語プロンプト定義書（Spec）】
+1. 空間レイヤー構造（Spatial Layout & Depth）：
+   - 【視点・構図】：シネマティック広角（16:9 / 1280x670）。手前・中景・遠景の明確なレイヤー分離。
+   - 【主役・キャラクター】：本文の文脈と感情を宿した配置、視線の因果（誰がどこを向き、なぜその表情なのか）。
+   - 【背景・世界観】：奥を塞ぐ不要な壁を排し、抜けるような奥行き（大気遠近法）を確保。
+
+2. 光と空気の調律（Why & Intent）：
+   - 【存在理由】：なぜこの空間・光・オブジェクトが存在するのか、本文の核心メッセージと結びつけて明記。
+   - 【キーライト＆リムライト】：主要な光源（月光、ネオン、陽光等）と、主役を際立たせる陰影のコントラスト。
+
+3. ネガティブスペース（UI領域確保）：
+   - 手前右下（または左下）25%は、noteのタイトル文字や公式ステッカー配置のため、遮るもののないオープンフロア／余白として死守する。
+
+4. 厳格な排除拘束（Negative Constraints）：
+   - AIが勝手に生やしがちな無関係の小道具、過剰な装飾、文字・タイポグラフィ、不要な仕切り壁を全面禁止。
+
+---
+### 🎨 【第2段階：確定英語プロンプト（Render Code）】
+- 上記の日本語Specを1:1で忠実にコンパイルした、Midjourney / Flux / DALL-E / Imagen 等で一発生成できる完成英語プロンプトを出力してください。
+- 冒頭にアスペクト比（--ar 16:9 または --ar 1.91:1）、スタイル指定、空間構図、ライティング（Why & Intent）、UI余白の死守、末尾に厳格なNegative指示を明記すること。
+---</textarea>
+                </div>
+
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800/80 text-[11px] text-slate-400 space-y-1">
+                    <div class="font-bold text-sky-300">💡 運用の極意（なぜ一発で決まるのか）：</div>
+                    <p>別チャットで要約を投げるのではなく、<strong>「本文を書いたそのチャットの末尾」</strong>に投げることで、AIの100万トークンの文脈記憶（KVキャッシュ）が働き、本文の空気感と100%同期した装丁が立ち上がります。初稿が出力されたら、上のタブで<strong>「Step 2」</strong>へ進んでください。</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- STEP 2: 【確定打】作者ビジョン注入型 ＆ 換装辞書内蔵Linter            -->
+        <!-- =================================================================== -->
+        <section id="tab-step2" class="tab-content hidden space-y-6">
+
+            <div class="bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/40 rounded-2xl p-5 space-y-4 glow-emerald">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40">
+                                TURN 2 // ADAPTIVE LINTER, SIGNATURE GROUNDING & AUTO-FIX
+                            </span>
+                            <span class="text-xs text-emerald-300 font-bold">品質自己監査 ＋ 作家性の物理接地 ＋ こだわり統合</span>
+                        </div>
+                        <h2 class="text-base sm:text-lg font-black text-white mt-1">【Step 2】作家性適応型・辞書内蔵確定Linter構文</h2>
+                    </div>
+
+                    <button id="btn-copy-linter-merged" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-500/20">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>完成構文をワンクリックコピー</span>
+                    </button>
+                </div>
+
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    AIがStep 1の初稿を出力したら、続けてこの構文を送信します。AIが6大基準で自己採点し、<strong>画一的な禁止ではなく、あなたの語彙の癖・作風を損なわないよう具体的な光や空間現象へ物理接地（Grounding）</strong>。さらに<strong>あなたが入力した情景イメージを100%定着させた100点満点確定コードへと自動リファクタリング</strong>します。
+                </p>
+            </div>
+
+            <!-- 作者ビジョン入力スロット -->
+            <div class="p-5 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-xs font-bold text-amber-300 flex items-center gap-2">
+                            <i class="fa-solid fa-paintbrush text-amber-400"></i>
+                            <span>【任意入力】作者の情景イメージ・固有のこだわり（Director's Vision）</span>
+                        </span>
+                        <!-- フォーカス時に動的表示されるステータスバッジ -->
+                        <span id="vision-status-badge" class="opacity-0 pointer-events-none transition-all duration-200 text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-amber-950/90 border border-amber-400/60 text-amber-300 font-bold flex items-center gap-1.5 shadow-sm shadow-amber-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+                            <span>入力中（自動合成連動）</span>
+                        </span>
+                    </div>
+                    <span class="text-[10px] font-mono text-slate-400">リアルタイムに構文へ自動合成</span>
+                </div>
+                <textarea id="author-vision-input" placeholder="（例）奥の塀をなくしてどこまでも続く秋の紅葉にしたい。二人は写実ではなく温かいピクサー調アニメにして、言葉を交わさず静かに満月を見上げている構図にしたい。手前の床板は暗めに抑えて月光を主役にしたい。" class="w-full h-24 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 placeholder-slate-600 focus-glow-amber transition-all duration-200 resize-none"></textarea>
+                <div class="text-[11px] text-slate-400 leading-relaxed">
+                    💡 未記入のままでも自己監査と自動修正は100%動作します。ここに<strong>構図、色味、キャラクターの表情、譲れない空気感</strong>を1〜3行書くだけで、AIの出力が「あなただけの唯一無二の装丁」へと昇華します。
+                </div>
+            </div>
+
+            <!-- 自動生成された送信テキスト枠（AI送信プレビュー） -->
+            <div class="p-5 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-xs font-mono font-bold text-slate-400 flex items-center gap-2">
+                            <i class="fa-solid fa-terminal text-emerald-400"></i>
+                            <span>AI送信プレビュー（内蔵辞書 ＆ 作家性接地 ＆ ビジョン完全マージ版）</span>
+                        </span>
+                        <!-- フォーカス時に動的表示されるステータスバッジ（エメラルド） -->
+                        <span id="linter-status-badge" class="opacity-0 pointer-events-none transition-all duration-200 text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-950/90 border border-emerald-400/60 text-emerald-300 font-bold flex items-center gap-1.5 shadow-sm shadow-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>構文確認・選択中</span>
+                        </span>
+                    </div>
+                    <span class="text-[10px] font-mono text-emerald-400 font-bold">Auto-Compiled</span>
+                </div>
+
+                <div class="relative">
+                    <textarea id="linter-merged-preview" readonly class="w-full h-96 bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs font-mono text-slate-200 leading-relaxed focus-glow-emerald transition-all duration-200 resize-none selection:bg-emerald-500 selection:text-slate-950"></textarea>
+                </div>
+            </div>
+
+            <!-- 折りたたみ式：内蔵辞書 ＆ 6大基準の手元リファレンス -->
+            <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-900/60">
+                <button id="btn-toggle-reference" class="w-full p-4 flex items-center justify-between text-left hover:bg-slate-800/40 transition">
+                    <div class="flex items-center gap-2 text-xs font-bold text-slate-300">
+                        <i class="fa-solid fa-book-bookmark text-purple-400"></i>
+                        <span>【手元確認用リファレンス】プロンプト内部に内蔵されている換装辞書 ＆ 6大監査基準</span>
+                    </div>
+                    <i id="icon-toggle-reference" class="fa-solid fa-chevron-down text-xs text-slate-500 transition-transform"></i>
+                </button>
+
+                <div id="reference-content" class="hidden p-5 border-t border-slate-800 space-y-6">
+                    <!-- 6大基準サマリー -->
+                    <div class="space-y-2">
+                        <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-list-check"></i>
+                            <span>AIが自己監査時に判定する6大基準（100点満点）</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+                            <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800/80">
+                                <div class="font-bold text-emerald-400 text-[11px]">1. 空間レイヤー分離 (20点)</div>
+                                <p class="text-slate-400 text-[10px]">奥の壁を排し、遠景への視線の抜けを確保しているか。</p>
+                            </div>
+                            <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800/80">
+                                <div class="font-bold text-emerald-400 text-[11px]">2. 存在理由（Why） (20点)</div>
+                                <p class="text-slate-400 text-[10px]">光や小道具の「存在理由」が本文と同期しているか。</p>
+                            </div>
+                            <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800/80">
+                                <div class="font-bold text-emerald-400 text-[11px]">3. 物理的単一拘束 (15点)</div>
+                                <p class="text-slate-400 text-[10px]">重要物に `strictly ONLY ONE` 排他ロックがあるか。</p>
+                            </div>
+                            <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800/80">
+                                <div class="font-bold text-emerald-400 text-[11px]">4. 厳格な排除拘束 (15点)</div>
+                                <p class="text-slate-400 text-[10px]">不要な壁、小道具、文字へのNegative指示があるか。</p>
+                            </div>
+                            <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800/80">
+                                <div class="font-bold text-emerald-400 text-[11px]">5. UI余白の死守 (15点)</div>
+                                <p class="text-slate-400 text-[10px]">手前右下25%が遮蔽物のないオープンフロアであるか。</p>
+                            </div>
+                            <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800/80">
+                                <div class="font-bold text-emerald-400 text-[11px]">6. 作家性の物理接地 (15点)</div>
+                                <p class="text-slate-400 text-[10px]">抽象語を排し、筆者の作風に調和する物理現象へ接地しているか。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 辞書検索＆カード -->
+                    <div class="space-y-3 pt-4 border-t border-slate-800/80">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div class="text-xs font-bold text-purple-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-spell-check"></i>
+                                <span>内蔵換装辞書（抽象語 ➔ 物理表現テーブル）</span>
+                            </div>
+                            <div class="relative w-full sm:w-60">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
+                                <input type="text" id="dict-search-input" placeholder="単語を検索（例: かっこいい）..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500">
+                            </div>
+                        </div>
+
+                        <div id="dict-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                            <!-- JSで動的レンダリング -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- フッター -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>© 令和レゾナンス ｜ note有料マガジン『画像生成の2PSメソッド』公式Webアセット</p>
+    </footer>
+
+    <!-- 離脱確認モーダル（誤クリック防止・データ保護） -->
+    <div id="portal-modal-overlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity duration-200 opacity-0">
+        <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-md w-full p-6 shadow-2xl shadow-sky-950/50 space-y-4 transform scale-95 transition-transform duration-200" id="portal-modal-card">
+            <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-sky-950 border border-sky-500/40 text-sky-400 flex items-center justify-center text-lg flex-shrink-0">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-black text-white flex items-center gap-1.5">
+                        <span>ポータル画面へ戻りますか？</span>
+                    </h3>
+                    <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                        現在作業中のワークベンチを離れ、公式アセットポータル（全体メニュー）へ移動します。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 注意喚起エリア -->
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800/80 text-[11px] text-amber-300/90 flex items-start gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400 mt-0.5 flex-shrink-0"></i>
+                <span>【Step 2】の「作者のこだわり」に入力中のテキストがある場合、画面を離れると内容は保持されません。</span>
+            </div>
+
+            <!-- アクションボタン -->
+            <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-800/80">
+                <button type="button" id="btn-cancel-modal" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 hover:text-white rounded-xl transition">
+                    作業を続ける
+                </button>
+                <a href="../index.html" id="btn-confirm-exit" class="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-xs font-black text-slate-950 rounded-xl transition flex items-center gap-1.5 shadow-md shadow-sky-500/20">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>ポータルへ戻る</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- インタラクティブ・ロジック -->
+    <script>
+        // DOM要素の取得（一元定義・重複宣言の完全排除）
+        const metaSyntaxText = document.getElementById('meta-syntax-text');
+        const metaStatusBadge = document.getElementById('meta-status-badge');
+        const authorVisionInput = document.getElementById('author-vision-input');
+        const visionStatusBadge = document.getElementById('vision-status-badge');
+        const linterMergedPreview = document.getElementById('linter-merged-preview');
+        const linterStatusBadge = document.getElementById('linter-status-badge');
+        const btnCopyMeta = document.getElementById('btn-copy-meta');
+        const btnCopyLinterMerged = document.getElementById('btn-copy-linter-merged');
+        const portalModalOverlay = document.getElementById('portal-modal-overlay');
+        const portalModalCard = document.getElementById('portal-modal-card');
+        const btnOpenPortalModal = document.getElementById('btn-open-portal-modal');
+        const btnCancelModal = document.getElementById('btn-cancel-modal');
+        const brandPortalLink = document.querySelector('header a[href="../index.html"]');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const btnToggleRef = document.getElementById('btn-toggle-reference');
+        const refContent = document.getElementById('reference-content');
+        const iconToggleRef = document.getElementById('icon-toggle-reference');
+        const dictCardsGrid = document.getElementById('dict-cards-grid');
+        const dictSearchInput = document.getElementById('dict-search-input');
+
+        // フォーカス時ステータスバッジの表示・非表示バインド
+        function bindFocusBadge(targetInput, badgeElement) {
+            if (!targetInput || !badgeElement) return;
+
+            targetInput.addEventListener('focus', () => {
+                badgeElement.classList.remove('opacity-0', 'pointer-events-none');
+                badgeElement.classList.add('opacity-100');
+            });
+
+            targetInput.addEventListener('blur', () => {
+                badgeElement.classList.remove('opacity-100');
+                badgeElement.classList.add('opacity-0', 'pointer-events-none');
+            });
+        }
+
+        // 3つのテキストエリアすべてにバインド適用
+        bindFocusBadge(metaSyntaxText, metaStatusBadge);
+        bindFocusBadge(authorVisionInput, visionStatusBadge);
+        bindFocusBadge(linterMergedPreview, linterStatusBadge);
+
+        // 離脱確認モーダルの制御
+        function openPortalModal(e) {
+            if (e) e.preventDefault();
+            portalModalOverlay.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                portalModalOverlay.classList.remove('opacity-0');
+                portalModalOverlay.classList.add('opacity-100');
+                portalModalCard.classList.remove('scale-95');
+                portalModalCard.classList.add('scale-100');
+            });
+        }
+
+        function closePortalModal() {
+            portalModalOverlay.classList.remove('opacity-100');
+            portalModalOverlay.classList.add('opacity-0');
+            portalModalCard.classList.remove('scale-100');
+            portalModalCard.classList.add('scale-95');
+            setTimeout(() => {
+                portalModalOverlay.classList.add('hidden');
+            }, 200);
+        }
+
+        if (btnOpenPortalModal) {
+            btnOpenPortalModal.addEventListener('click', openPortalModal);
+        }
+        if (brandPortalLink) {
+            brandPortalLink.addEventListener('click', openPortalModal);
+        }
+        if (btnCancelModal) {
+            btnCancelModal.addEventListener('click', closePortalModal);
+        }
+
+        portalModalOverlay.addEventListener('click', (e) => {
+            if (e.target === portalModalOverlay) {
+                closePortalModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !portalModalOverlay.classList.contains('hidden')) {
+                closePortalModal();
+            }
+        });
+
+        // タブ切り替え（Step 1 / Step 2）
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-tab');
+                tabButtons.forEach(b => {
+                    b.classList.remove('active', 'active-step2');
+                });
+
+                if (targetId === 'tab-step2') {
+                    btn.classList.add('active-step2');
+                } else {
+                    btn.classList.add('active');
+                }
+
+                tabContents.forEach(content => {
+                    if (content.id === targetId) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Step 1: メタ構文コピーボタン
+        if (btnCopyMeta && metaSyntaxText) {
+            btnCopyMeta.addEventListener('click', () => {
+                navigator.clipboard.writeText(metaSyntaxText.value.trim()).then(() => {
+                    const origHtml = btnCopyMeta.innerHTML;
+                    btnCopyMeta.innerHTML = `<i class="fa-solid fa-check"></i><span>コピー完了！</span>`;
+                    btnCopyMeta.classList.remove('bg-sky-500');
+                    btnCopyMeta.classList.add('bg-emerald-500');
+                    setTimeout(() => {
+                        btnCopyMeta.innerHTML = origHtml;
+                        btnCopyMeta.classList.remove('bg-emerald-500');
+                        btnCopyMeta.classList.add('bg-sky-500');
+                    }, 1800);
+                });
+            });
+        }
+
+        // Step 2: 作者ビジョン統合＆作家性接地対応Linter構文の動的生成
+        function buildLinterPrompt() {
+            const vision = authorVisionInput ? authorVisionInput.value.trim() : "";
+            const visionText = vision 
+                ? vision 
+                : "（※特に指定なし。6大品質監査基準を満たし、作者の作風・温度感を尊重して内蔵換装辞書に沿って最適にリファクタリングしてください）";
+
+            return `先ほど出力された【日本語Spec】および【確定英語Renderコード】を、以下の「6大品質監査プロトコル」および「内蔵換装辞書」に照らし合わせて厳格に自己監査（Linting）し、さらに【作者の情景イメージ・固有のこだわり】を完全統合してリファクタリングしてください。
+
+### 📋 【6大品質監査プロトコル（各項目と配点）】
+1. 空間レイヤー分離（20点）：手前・中景・遠景が分離され、奥を塞ぐ壁が排除されて「抜け」があるか？
+2. 存在理由（Why & Intent）（20点）：単なる物の位置（What）ではなく、光や小道具の「存在理由」が本文の文脈と結びついているか？
+3. 物理的単一拘束（15点）：増殖しやすい重要アイテム・人物に「strictly ONLY ONE」などの排他ロックがあるか？
+4. 厳格な排除拘束（15点）：不要な壁、小道具、文字、ノイズに対するNegative指示（NO walls, NO clutter等）が明記されているか？
+5. UIネガティブスペース（15点）：手前右下（または左下）25%が遮るもののない余白として死守されているか？
+6. 抽象語の排除と作家性の物理接地（15点）：文脈に依存する主観的・評価的形容詞を検知せよ。ただし画一的に排除するのではなく、【本文および作者のこだわりに見られる語彙の癖・作風・感情の温度感】を損なわないよう、その作者固有の世界観に最も調和する具体的な光源・材質・構図・空間現象へと文脈ごと物理接地（Grounding）してリファクタリングされているか？
+
+### 📖 【内蔵換装辞書（抽象語 ➔ 物理表現ルール）】
+- 「かっこいい、スタイリッシュ」➔ 深いスレートネイビーの陰影、冷涼なシルバーのリムライト、無機質なアルミの反射光（crisp silver rim-lighting, deep slate-navy shadows, brushed matte aluminum highlights）
+- 「未来的、ハイテク」➔ ミニマルな黒色モノリス、淡いシアンLED、アクリルガラスの境界壁（matte black monolith, glowing cyan LED, glass partition）
+- 「シンプル、あっさり」➔ 手前右下25%の完全なオープンフロア、小道具全廃、自然拡散光（unobstructed vacant negative space, devoid of clutter, diffuse natural skylight）
+- 「落ち着いた、静かな、禅」➔ 秋の夜空の満月、静かに照らす月光、無限に抜ける遠景の森（luminous full moon, soft silver key-light, vast expansive forest without walls）
+- 「高級感、美しい」➔ 木目の通ったウォールナット、ヘアライン真鍮、浅い被写界深度（dark walnut timber, brushed brass accent, shallow depth of field）
+- 「怪しげ、不穏」➔ 低角度の琥珀色ライト、長く伸びる影、単一の赤い警告レバー（low-angle amber uplight, long distorted shadows, red emergency lever）
+※上記辞書にない抽象語であっても、作者の語彙傾向を踏まえ、五感で描画可能な物理現象へと文脈換装せよ。
+
+---
+### 🎭 【作者の情景イメージ・固有のこだわり（Director's Vision）】
+${visionText}
+
+---
+### 📤 【出力フォーマット】
+以下の構成でレポートを出力してください：
+
+1. 📊 【2PS自己監査診断レポート】
+   - 初回プロンプトの総合スコア：[ ○○ / 100 点 ]
+   - 各項目の減点理由と、検出された抽象語の物理換装箇所
+   - 【作者ビジョン・作風の統合方針】：作者固有の語彙の癖やこだわりをどの空間レイヤー・光・構図に反映させたか
+
+2. 🚀 【100点満点 ＆ 作者ビジョン統合リファクタリング確定版】
+   - 6大品質基準を満たし、作者のこだわりが100%定着した【完全版 日本語Spec】
+   - Midjourney / Flux / DALL-E 等にそのまま投入できる【確定英語Renderコード（完全版）】`;
+        }
+
+        function updateLinterPreview() {
+            if (linterMergedPreview) {
+                linterMergedPreview.value = buildLinterPrompt();
+            }
+        }
+
+        if (authorVisionInput) {
+            authorVisionInput.addEventListener('input', updateLinterPreview);
+        }
+        updateLinterPreview();
+
+        if (btnCopyLinterMerged && linterMergedPreview) {
+            btnCopyLinterMerged.addEventListener('click', () => {
+                navigator.clipboard.writeText(linterMergedPreview.value).then(() => {
+                    const origHtml = btnCopyLinterMerged.innerHTML;
+                    btnCopyLinterMerged.innerHTML = `<i class="fa-solid fa-check"></i><span>コピー完了！</span>`;
+                    btnCopyLinterMerged.classList.remove('bg-emerald-500');
+                    btnCopyLinterMerged.classList.add('bg-sky-500');
+                    setTimeout(() => {
+                        btnCopyLinterMerged.innerHTML = origHtml;
+                        btnCopyLinterMerged.classList.remove('bg-sky-500');
+                        btnCopyLinterMerged.classList.add('bg-emerald-500');
+                    }, 1800);
+                });
+            });
+        }
+
+        // 折りたたみリファレンスのトグル
+        if (btnToggleRef && refContent && iconToggleRef) {
+            btnToggleRef.addEventListener('click', () => {
+                const isHidden = refContent.classList.contains('hidden');
+                if (isHidden) {
+                    refContent.classList.remove('hidden');
+                    iconToggleRef.classList.add('rotate-180');
+                } else {
+                    refContent.classList.add('hidden');
+                    iconToggleRef.classList.remove('rotate-180');
+                }
+            });
+        }
+
+        // 換装辞書データ
+        const DICTIONARY_DATA = [
+            {
+                ng: "かっこいい、スタイリッシュな (Cool / Stylish)",
+                category: "トーン・照明",
+                ok_jp: "深いスレートネイビーの陰影、エッジを鋭角に際立たせる冷涼なシルバーのリムライト、無機質な硬質アルミの反射光",
+                ok_en: "crisp silver rim-lighting along edges, deep moody slate-navy shadows, brushed matte aluminum highlights, precision sharp contours"
+            },
+            {
+                ng: "未来的な、ハイテクな (Futuristic / High-tech)",
+                category: "空間・オブジェクト",
+                ok_jp: "配線を排したミニマルな黒色モノリス、淡いシアン（青緑）のステータスインジケーターLED、曇りなきアクリルガラスの境界壁",
+                ok_en: "seamless matte black monolith kiosk, subtle glowing cyan indicator LED strip, anti-reflective tempered glass partition"
+            },
+            {
+                ng: "シンプルな、あっさりした (Simple / Minimal)",
+                category: "余白・構図",
+                ok_jp: "手前右下25%を遮るものなく確保したオープンフロア、余計な家具・小道具の完全排除、天井からの柔らかな自然拡散光",
+                ok_en: "unobstructed vacant negative space occupying lower-right 25%, strictly devoid of clutter and small props, diffuse natural skylight"
+            },
+            {
+                ng: "落ち着いた、静かな (Calm / Quiet / Zen)",
+                category: "光・空気感",
+                ok_jp: "秋の夜空に浮かぶ銀白の満月、二人の横顔を静かに照らす月光、余分な言葉を交わさず静止した佇まい",
+                ok_en: "luminous harvest full moon in midnight-blue expanse, soft silver key-light on serene upturned profiles, atmospheric depth and stillness"
+            },
+            {
+                ng: "高級感のある、美しい (Luxury / Beautiful)",
+                category: "質感・マテリアル",
+                ok_jp: "木目の通った磨き上げられたウォールナットの縁側、反射を抑えたヘアライン加工の真鍮レバー、シネマティックな浅い被写界深度",
+                ok_en: "polished grain of dark walnut timber, subtle brushed brass lever accent, cinematic shallow depth of field (f/2.8)"
+            },
+            {
+                ng: "怪しげな、不穏な (Suspicious / Dangerous)",
+                category: "照明・コントラスト",
+                ok_jp: "足元から照らし上げる低角度の琥珀色ライト、長く伸びる不自然なシルエット、暗がりの中で明滅する単一の赤い警告レバー",
+                ok_en: "low-angle amber uplight casting long distorted shadows, single isolated mechanical red emergency lever glowing in partial gloom"
+            }
+        ];
+
+        function renderDictionary(filterText = '') {
+            if (!dictCardsGrid) return;
+            dictCardsGrid.innerHTML = '';
+            const normalized = filterText.toLowerCase().trim();
+
+            const filtered = DICTIONARY_DATA.filter(item => {
+                return item.ng.toLowerCase().includes(normalized) ||
+                       item.ok_jp.toLowerCase().includes(normalized) ||
+                       item.ok_en.toLowerCase().includes(normalized) ||
+                       item.category.toLowerCase().includes(normalized);
+            });
+
+            if (filtered.length === 0) {
+                dictCardsGrid.innerHTML = `
+                    <div class="col-span-full py-6 text-center text-slate-500">
+                        <i class="fa-solid fa-face-meh text-xl mb-1"></i>
+                        <p class="text-xs">該当する単語が見つかりませんでした。</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "p-3.5 bg-slate-950 rounded-xl border border-slate-800 space-y-2.5 hover:border-purple-500/40 transition";
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2 border-b border-slate-800/80 pb-1.5">
+                        <div>
+                            <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-950 text-purple-300 border border-purple-500/30">${item.category}</span>
+                            <div class="font-bold text-rose-400 text-xs mt-0.5">
+                                <i class="fa-solid fa-ban text-[10px] mr-1"></i>NG: ${item.ng}
+                            </div>
+                        </div>
+                        <button class="btn-copy-dict text-[10px] px-2 py-0.5 bg-slate-800 hover:bg-purple-600 text-slate-200 hover:text-white rounded transition font-mono flex items-center gap-1" data-index="${index}">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>EN</span>
+                        </button>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="text-[10px] font-bold text-emerald-400 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check text-[9px]"></i>
+                            <span>推奨（日本語）：</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px] leading-relaxed pl-2.5 border-l border-emerald-500/40">${item.ok_jp}</p>
+                    </div>
+
+                    <div class="p-2 bg-slate-900 rounded-lg border border-slate-800/80 text-[10px] font-mono text-slate-300 select-all leading-normal">
+                        ${item.ok_en}
+                    </div>
+                `;
+                dictCardsGrid.appendChild(card);
+            });
+
+            document.querySelectorAll('.btn-copy-dict').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.getAttribute('data-index'), 10);
+                    const targetText = filtered[idx].ok_en;
+                    navigator.clipboard.writeText(targetText).then(() => {
+                        const originalHtml = btn.innerHTML;
+                        btn.innerHTML = `<i class="fa-solid fa-check"></i> 済`;
+                        btn.classList.add('bg-purple-600');
+                        setTimeout(() => {
+                            btn.innerHTML = originalHtml;
+                            btn.classList.remove('bg-purple-600');
+                        }, 1500);
+                    });
+                });
+            });
+        }
+
+        if (dictSearchInput) {
+            dictSearchInput.addEventListener('input', (e) => {
+                renderDictionary(e.target.value);
+            });
+        }
+
+        // 初期表示
+        renderDictionary();
+    </script>
 </body>
 </html>
