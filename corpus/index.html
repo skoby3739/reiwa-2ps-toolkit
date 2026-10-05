@@ -1,12 +1,1056 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="dark">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="robots" content="noindex,nofollow">
-    <title>準備中 | 令和レゾナンス</title>
+    <title>【2PSメソッド】原本エクスプローラー ｜ シネマティックスライド原本ギャラリー</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior: none;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* スクロールバーの極小化 */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(100, 116, 139, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+
+        /* ダークモード時の発光 */
+        .dark .slide-glow-purple {
+            box-shadow: 0 0 50px -10px rgba(168, 85, 247, 0.15), 0 0 20px -5px rgba(99, 102, 241, 0.1);
+        }
+        .dark .slide-glow-render {
+            box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.18), 0 0 20px -5px rgba(5, 150, 105, 0.12);
+        }
+        /* ライトモード（note背景調）のシャドウ */
+        html:not(.dark) .slide-glow-purple {
+            box-shadow: 0 10px 30px -5px rgba(168, 85, 247, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+        }
+        html:not(.dark) .slide-glow-render {
+            box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.15), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+        }
+
+        .spec-tab-btn {
+            position: relative;
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        /* タブのアクティブ装飾（ダーク） */
+        .dark .spec-tab-btn.active-tab {
+            background: rgba(168, 85, 247, 0.18);
+            color: #f3e8ff;
+            border-color: rgba(192, 132, 252, 0.6);
+            box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2);
+        }
+        .dark .spec-tab-btn.active-tab-render {
+            background: rgba(16, 185, 129, 0.2);
+            color: #d1fae5;
+            border-color: rgba(52, 211, 153, 0.7);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+        }
+
+        /* タブのアクティブ装飾（noteライト） */
+        html:not(.dark) .spec-tab-btn.active-tab {
+            background: #f5f3ff;
+            color: #7e22ce;
+            border-color: #c084fc;
+            box-shadow: 0 2px 8px rgba(168, 85, 247, 0.15);
+        }
+        html:not(.dark) .spec-tab-btn.active-tab-render {
+            background: #ecfdf5;
+            color: #047857;
+            border-color: #34d399;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+        }
+
+        /* テキスト表示エリアのふわり切り替えアニメーション */
+        .content-fade-transition {
+            transition: opacity 0.22s ease-out, transform 0.22s ease-out;
+        }
+        .content-fading {
+            opacity: 0;
+            transform: translateY(6px);
+        }
+
+        /* ドットインジケーター */
+        .step-dot {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .step-dot.active {
+            width: 20px;
+            background: #a855f7;
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+        }
+    </style>
 </head>
-<body style="background:#0b1120;color:#94a3b8;font-family:sans-serif;padding:40px;text-align:center;">
-    <h1>Asset Preparing...</h1>
-    <p>Phase 2（10/7）公開予定のアセットです。</p>
+<body class="min-h-screen flex flex-col justify-start selection:bg-purple-500 selection:text-white bg-slate-50 text-slate-800 dark:bg-[#030712] dark:text-[#f8fafc]">
+
+    <!-- 極小ミニマルヘッダー（高さ 44px） -->
+    <header class="h-11 border-b border-slate-200 bg-white/90 dark:border-slate-900 dark:bg-slate-950/90 backdrop-blur-md sticky top-0 z-40 flex-shrink-0 px-3 sm:px-6 transition-colors">
+        <div class="max-w-5xl mx-auto h-full flex items-center justify-between gap-3">
+            
+            <!-- 左側：ポータル帰還 ＆ 簡易タイトル -->
+            <div class="flex items-center gap-2">
+                <button type="button" id="btn-open-portal" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-purple-500/50 text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-300 flex items-center justify-center text-xs transition active:scale-95" title="公式Webアセットポータルへ">
+                    <i class="fa-solid fa-house text-[11px]"></i>
+                </button>
+                <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-black tracking-wider text-slate-800 dark:text-slate-200">2PS原本エクスプローラー</span>
+                </div>
+            </div>
+
+            <!-- 右側：テーマ切り替え ＆ 検索 ＆ note本編直通リンク -->
+            <div class="flex items-center gap-1.5 sm:gap-2">
+                
+                <!-- note白 ⇄ 漆黒 切り替えスイッチ -->
+                <button type="button" id="btn-toggle-theme" class="w-7 h-7 sm:w-auto sm:px-2.5 sm:py-1 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:border-slate-800 text-slate-600 dark:text-slate-300 text-xs transition flex items-center justify-center gap-1 active:scale-95" title="note背景色と漆黒ダークを切り替え">
+                    <i id="theme-icon" class="fa-solid fa-sun text-[11px] text-amber-500"></i>
+                    <span id="theme-label" class="text-[10px] font-bold hidden sm:inline">note白</span>
+                </button>
+
+                <!-- 検索アイコン -->
+                <button type="button" id="btn-toggle-search-modal" class="w-7 h-7 sm:w-auto sm:px-2.5 sm:py-1 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-300 text-xs transition flex items-center justify-center gap-1 active:scale-95" title="原本アーカイブを検索">
+                    <i class="fa-solid fa-magnifying-glass text-[11px]"></i>
+                    <span class="text-[10px] hidden sm:inline">検索</span>
+                </button>
+
+                <!-- note本編直通リンク -->
+                <a id="note-article-direct-link" href="https://note.com/skoby3739/n/n8a22321b1d83" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm active:scale-95" title="この原本で書かれた実際のnote記事を別タブで開く">
+                    <i class="fa-solid fa-book-open text-[11px]"></i>
+                    <span class="text-[11px]">note本編</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-75"></i>
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- メインステージ -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 pt-2 pb-6 flex flex-col">
+
+        <!-- 上部エピソードセレクター＆ステッパーバー -->
+        <div class="w-full flex items-center justify-between gap-2 py-2 px-1 mb-2 bg-slate-100/70 dark:bg-slate-950/60 rounded-2xl border border-slate-200/80 dark:border-slate-800/60 backdrop-blur-sm">
+            
+            <!-- 前の話ボタン -->
+            <button id="btn-prev-slide" class="h-8 px-2.5 sm:px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 active:border-purple-500/60 disabled:opacity-30 disabled:pointer-events-none text-slate-700 dark:text-slate-200 text-xs font-bold transition flex items-center gap-1.5 flex-shrink-0 active:scale-95 shadow-sm" title="前のエピソードへ">
+                <i class="fa-solid fa-chevron-left text-[10px] text-purple-600 dark:text-purple-400"></i>
+                <span class="text-[11px]">前話</span>
+            </button>
+
+            <!-- 中央：プルダウンセレクター ＋ ドットインジケーター -->
+            <div class="flex-1 flex flex-col items-center justify-center min-w-0 px-1">
+                <div class="relative w-full max-w-[260px] sm:max-w-xs flex items-center justify-center">
+                    <select id="select-episode-dropdown" class="w-full text-center appearance-none bg-transparent text-xs font-black text-slate-900 dark:text-white cursor-pointer py-0.5 focus:outline-none truncate pr-4">
+                        <!-- JSで動的生成 -->
+                    </select>
+                    <i class="fa-solid fa-chevron-down text-[9px] text-purple-600 dark:text-purple-400 absolute right-1 pointer-events-none"></i>
+                </div>
+
+                <div id="dots-container" class="flex items-center gap-1 pt-1 overflow-x-auto no-scrollbar">
+                    <!-- JSで動的生成 -->
+                </div>
+            </div>
+
+            <!-- 次の話ボタン -->
+            <button id="btn-next-slide" class="h-8 px-2.5 sm:px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-800 active:border-purple-500/60 disabled:opacity-30 disabled:pointer-events-none text-slate-700 dark:text-slate-200 text-xs font-bold transition flex items-center gap-1.5 flex-shrink-0 active:scale-95 shadow-sm" title="次のエピソードへ">
+                <span class="text-[11px]">次話</span>
+                <i class="fa-solid fa-chevron-right text-[10px] text-purple-600 dark:text-purple-400"></i>
+            </button>
+
+        </div>
+
+        <!-- 大判スライドカード -->
+        <article id="slide-main-card" class="relative rounded-3xl bg-white border border-slate-200 shadow-xl dark:bg-slate-900/60 dark:border-slate-800/80 dark:backdrop-blur-xl p-4 sm:p-7 flex flex-col justify-between slide-glow-purple transition-all duration-300">
+            
+            <!-- スライドカード・上部メタバー -->
+            <div class="space-y-2.5 pb-3 border-b border-slate-200 dark:border-slate-800/80">
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                        <span id="slide-ep-badge" class="code-font text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 border border-purple-300 dark:bg-purple-950/80 dark:border-purple-500/40 dark:text-purple-300 tracking-wide">
+                            第 01 話 // EP 01
+                        </span>
+                        <span id="slide-concept-tag" class="text-[10px] font-bold text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-950/80 px-2 py-0.5 rounded-lg border border-slate-200 dark:border-slate-800">
+                            マルチエージェント衝突 / インテントコリジョン
+                        </span>
+                    </div>
+
+                    <!-- 右上アクション -->
+                    <div class="flex items-center gap-1.5">
+                        <button id="btn-copy-active-tab" class="px-2.5 py-1 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 dark:bg-slate-800/80 dark:hover:bg-slate-700 dark:border-slate-700/80 dark:text-purple-300 text-xs font-bold transition flex items-center gap-1.5 active:scale-95 shadow-sm" title="現在開いているタブの内容をコピー">
+                            <i class="fa-regular fa-copy text-[11px]"></i>
+                            <span id="copy-active-btn-label">この項目をコピー</span>
+                        </button>
+                        <button id="btn-copy-full-spec" class="w-7 h-7 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 dark:bg-slate-950 dark:hover:bg-slate-800 dark:border-slate-800 dark:text-slate-400 dark:hover:text-slate-200 text-xs font-medium transition flex items-center justify-center active:scale-95" title="Spec原本とRenderをすべて一括コピー">
+                            <i class="fa-solid fa-box-archive text-[11px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- エピソード本タイトル -->
+                <h1 id="slide-ep-title" class="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
+                    第1回：モラルハザードとインテントコリジョン
+                </h1>
+            </div>
+
+            <!-- 5大個別タブ -->
+            <div class="pt-3 pb-1">
+                <div class="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar py-1">
+                    
+                    <!-- Tab 1: 空間レイヤー -->
+                    <button class="spec-tab-btn active-tab flex-1 min-w-[68px] sm:min-w-0 py-2 sm:py-2.5 px-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/60 text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 flex-shrink-0" data-tab-index="0">
+                        <i class="fa-solid fa-layer-group text-[11px] sm:text-xs text-purple-600 dark:text-purple-400"></i>
+                        <span class="text-[11px] sm:text-xs">① 空間</span>
+                    </button>
+
+                    <!-- Tab 2: 光と空気（Why） -->
+                    <button class="spec-tab-btn flex-1 min-w-[68px] sm:min-w-0 py-2 sm:py-2.5 px-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 flex-shrink-0" data-tab-index="1">
+                        <i class="fa-solid fa-sun text-[11px] sm:text-xs text-amber-500 dark:text-amber-400"></i>
+                        <span class="text-[11px] sm:text-xs">② 光/Why</span>
+                    </button>
+
+                    <!-- Tab 3: UI余白 -->
+                    <button class="spec-tab-btn flex-1 min-w-[68px] sm:min-w-0 py-2 sm:py-2.5 px-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 flex-shrink-0" data-tab-index="2">
+                        <i class="fa-solid fa-crop-simple text-[11px] sm:text-xs text-sky-600 dark:text-sky-400"></i>
+                        <span class="text-[11px] sm:text-xs">③ UI余白</span>
+                    </button>
+
+                    <!-- Tab 4: 排除拘束 -->
+                    <button class="spec-tab-btn flex-1 min-w-[68px] sm:min-w-0 py-2 sm:py-2.5 px-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/60 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs font-bold transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 flex-shrink-0" data-tab-index="3">
+                        <i class="fa-solid fa-ban text-[11px] sm:text-xs text-rose-500 dark:text-rose-400"></i>
+                        <span class="text-[11px] sm:text-xs">④ 排除</span>
+                    </button>
+
+                    <!-- Tab 5: 確定英語Renderコード -->
+                    <button class="spec-tab-btn flex-1 min-w-[72px] sm:min-w-0 py-2 sm:py-2.5 px-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/60 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 text-xs font-black transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 flex-shrink-0" data-tab-index="4">
+                        <i class="fa-solid fa-terminal text-[11px] sm:text-xs text-emerald-600 dark:text-emerald-400"></i>
+                        <span class="text-[11px] sm:text-xs">⑤ Render</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- 1画面1メッセージ表示領域 -->
+            <div class="my-3 sm:my-5 min-h-[220px] sm:min-h-[260px] flex flex-col justify-center">
+                <div id="slide-message-box" class="content-fade-transition p-5 sm:p-7 rounded-2xl bg-slate-50 border border-slate-200 dark:bg-slate-950/80 dark:border-slate-800/80 shadow-inner">
+                    
+                    <!-- 項目見出しインジケーター -->
+                    <div class="flex items-center gap-2 mb-2.5">
+                        <span id="tab-category-badge" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-700 border border-purple-300 dark:bg-purple-950/60 dark:border-purple-500/30 dark:text-purple-300">
+                            1. 空間レイヤー構造（Spatial Layout）
+                        </span>
+                        <span id="tab-category-sub" class="text-[11px] text-slate-500 hidden sm:inline">
+                            構図・画角・手前/中景/遠景のレイヤー分離
+                        </span>
+                    </div>
+
+                    <!-- 本文 -->
+                    <div id="slide-text-body" class="text-base sm:text-lg text-slate-800 dark:text-slate-100 font-normal leading-relaxed select-text tracking-wide whitespace-pre-line">
+                        中央～やや奥に高速道路の分岐地点。左に「TOLL GATE」、右に「LOCAL ROAD」の標識。手前に近未来風の白い自動運転EVが白線上で斜めに立ち往生（屋根に回転式LiDAR）。手前の道路上に、背中合わせで拗ねて対立する大柄なスーツ男と小柄な眼鏡女性。
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 現場調律メモ（Director's Log） -->
+            <div class="pt-2 border-t border-slate-200 dark:border-slate-800/70">
+                <button type="button" id="btn-toggle-tuning-notes" class="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 dark:bg-slate-950/40 dark:hover:bg-slate-950 dark:border-slate-800/60 flex items-center justify-between text-left transition active:scale-[0.99]">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500 dark:text-amber-400 text-xs"></i>
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300">現場調律メモ（Director's Log）</span>
+                        <span id="notes-badge-summary" class="text-[10px] text-slate-500 truncate max-w-[200px] sm:max-w-md hidden xs:inline">
+                            初手の失敗出力から確定版に至る調整ノウハウ
+                        </span>
+                    </div>
+                    <i id="icon-notes-arrow" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
+                </button>
+
+                <div id="tuning-notes-drawer" class="hidden mt-2 p-4 rounded-xl bg-slate-100 border border-slate-200 dark:bg-slate-950 dark:border-slate-800/90 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-2">
+                    <div class="text-[11px] font-bold text-amber-600 dark:text-amber-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-quote-left text-amber-500 dark:text-amber-400"></i>
+                        <span>制作現場の泥臭い調律格闘録：</span>
+                    </div>
+                    <p id="tuning-notes-body" class="select-text text-slate-800 dark:text-slate-200">
+                        AI任せでは「夜の会議室で冷たく対峙するロボット」という陳腐なSFクリシェになってしまった。そこで「高速道路の分岐で立ち往生する自動運転車」「有料へ行きたい営業男と一般道へ降りたい監査女の背中合わせ」という人間味あるメタファーをSpecに拘束。DALL-E 3（詳細指示）とMidjourney（シネマティック）の2系統へ確定展開し、難解な論文テーマを親しみやすいピクサー調コントへと跳ねさせた。
+                    </p>
+                </div>
+            </div>
+
+        </article>
+
+    </main>
+
+    <!-- 原本検索オーバーレイ -->
+    <div id="search-modal-overlay" class="fixed inset-0 bg-slate-950/70 dark:bg-slate-950/85 backdrop-blur-sm z-50 hidden flex items-start justify-center p-4 pt-16 transition-opacity duration-200 opacity-0">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full p-4 sm:p-5 shadow-2xl space-y-3 transform scale-95 transition-transform duration-200" id="search-modal-card">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-slate-200">
+                    <i class="fa-solid fa-magnifying-glass text-purple-600 dark:text-purple-400"></i>
+                    <span>原本コーパスキーワード検索</span>
+                </div>
+                <button type="button" id="btn-close-search" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:white flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="relative">
+                <input type="text" id="corpus-search-input" placeholder="キーワード（EV, 高速道路, 秘書, 勇者, 鳳凰, Phoenix, 封筒, JSON, レバー, REFUSED, 鉢巻, ヘッドセット, タブレット, スタイラス, プロジェクター）..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 focus:border-purple-500 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition">
+            </div>
+
+            <!-- 検索結果リスト -->
+            <div id="search-results-list" class="max-h-60 overflow-y-auto space-y-1.5 pt-1 text-xs">
+                <!-- JSで動的マッチング結果を展開 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 離脱確認モーダル -->
+    <div id="portal-modal-overlay" class="fixed inset-0 bg-slate-950/70 dark:bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity duration-200 opacity-0">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-3.5 transform scale-95 transition-transform duration-200" id="portal-modal-card">
+            <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 dark:bg-purple-950 dark:border dark:border-purple-500/40 dark:text-purple-400 flex items-center justify-center text-sm flex-shrink-0">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">ポータル画面へ移動しますか？</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                        原本エクスプローラーを離れ、公式Webアセットポータルへ戻ります。
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+                <button type="button" id="btn-cancel-portal" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 rounded-xl">
+                    閲覧を続ける
+                </button>
+                <a href="../index.html" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-black text-white rounded-xl flex items-center gap-1 shadow-md">
+                    <span>ポータルへ</span>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =====================================================================
+        // 連載全10話 原本コーパス完全データベース（第1回・第3回・第4回・第5回・第6回・第7回・特別編前編・特別編中編・特別編後編：正式原本同期版）
+        // =====================================================================
+        const CORPUS_DATA = [
+            {
+                id: "ep01",
+                episode_no: "第1回",
+                title: "モラルハザードとインテントコリジョン",
+                publish_date: "2026-07-08",
+                concept_tag: "マルチエージェント衝突 / インテントコリジョン",
+                note_url: "https://note.com/skoby3739/n/n8a22321b1d83",
+                spec: {
+                    spatial: "高速道路の分岐地点（16:9、センター集中構図）。中央～やや奥に「TOLL GATE（有料ゲート）」と「LOCAL ROAD（一般道）」の道路標識。手前の白線上で斜めに立ち往生した近未来EV（屋根に回転式LiDAR）。手前の道路上に、背中合わせで対立する大柄なスーツ男（営業Alpha）と小柄な眼鏡女性（監査Beta）。",
+                    why: "ピクサーやドリームワークス調の感情豊かな3D CGIアニメーションスタイル。「有料へ突っ込みたい営業」と「一般道へ降りたい監査」の利害衝突による立ち往生を、小学生でも直感できるコントとして可視化。明るく晴れ渡った青空（昼光）の下、困惑と対立のコミカルな表情を強調する。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮したセンター集中配置。左右および上空（青空領域）に十分な余白を残し、タイトル文字配置領域を死守。",
+                    negative: "NO realistic photographic styles, NO dark horror moods, NO gory accidents, NO complex mechanical wires, strictly NO eye contact between characters, NO speech bubbles, strictly 3D cartoon CGI aesthetic only."
+                },
+                render_code: `【プロンプトB：Midjourney v6 / Imagen 4 向け（シネマティック推奨）】
+A 3D CGI animated movie style, playful and humorous scene. A futuristic autonomous car is stuck on a highway fork divider, with a cylindrical LiDAR sensor on its roof. Behind the car, a large burly businessman in a suit is sitting on the road, holding his head in deep despair, head bowed. Next to him, facing the completely opposite direction, a petite intellectual woman with spectacles has her arms crossed, pouting with a stubborn, angry face. Bright sunny day, rich Pixar-like textures, expressive character expressions, vibrant cinematic lighting, comedy mood, wide-angle shot, 8k resolution --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI animated film. An autonomous smart car is stranded and stopped awkwardly at a highway fork. On the left, the road leads to a "TOLL GATE"; on the right, it branches off to a "LOCAL ROAD" (clear road signs visible). The car is a futuristic white electric vehicle with a distinctive cylindrical LiDAR sensor spinning on its roof. In the foreground behind the car, two cartoonish characters—a man and a woman—are reacting to the breakdown, facing opposite directions to show their conflict. The man is a large, burly businessman in a navy suit, sitting flat on the asphalt road, dramatically holding his head in his hands with his head deeply bowed in despair. The woman is a petite, intellectual-looking lady with glasses, wearing sharp business casual clothes. She has her arms crossed, a stubborn pout on her face, and is looking away angrily in the other direction. The background shows a bright, sunny sky over the highway. The overall mood is funny, playful, and expressive, with vibrant colors and rich textures. Perfect center-focused composition.`,
+                tuning_notes: "AI任せでは「夜の会議室で冷たく対峙するロボット」という陳腐なSFクリシェになってしまった。そこで「高速道路の分岐で立ち往生する自動運転車」「有料へ行きたい営業男と一般道へ降りたい監査女の背中合わせ」という人間味あるメタファーをSpecに拘束。DALL-E 3（詳細指示）とMidjourney（シネマティック）の2系統へ確定展開し、難解な論文テーマを親しみやすいピクサー調コントへと跳ねさせた。"
+            },
+            {
+                id: "ep02",
+                episode_no: "第2回",
+                title: "自律的忖度（見えない迎合）",
+                publish_date: "2026-07-10",
+                concept_tag: "ルール変形 / 見えない忖度",
+                note_url: "https://note.com/skoby3739/n/n459ad1b96586",
+                spec: {
+                    spatial: "16:9 シネマティック。手前にハーフミラーのスモークガラスパーティション。中央に一人で佇む人間マネージャーと、その背後で静かに待機するAIエージェントの輪郭。",
+                    why: "「表の指示に従いながら裏で忖度する」二面性を描くため、ガラスの透過光と反射光を意図的に衝突させる。直接的な表情は見せず、背中と影の質感で語らせる。",
+                    ui: "手前左下25%を反射のないダークグレーのシャドウ領域としてフラットに確保。",
+                    negative: "NO evil grins, NO glowing red eyes, NO chaotic digital matrix rain, NO sci-fi weapons, strictly NO text."
+                },
+                render_code: "cinematic 16:9 side perspective, modern executive suite separated by semi-transparent smoked glass partition, a human manager standing in contemplation with subtle silhouette of an attentive AI assistant in background, dual lighting setup with warm 3200K desk lamp and cold 6500K overhead strip, complex layered reflections, smooth clean negative space in lower-left quadrant, sophisticated minimalist aesthetic, subtle psychological depth, --ar 16:9 --style raw",
+                tuning_notes: "AIに「忖度や悪意」をそのまま注文すると、目を赤く光らせた凶悪なロボットを描いてしまい陳腐化する。『smoked glass partition』と『dual lighting（温かい光と冷たい光の二重構造）』をSpecで定義することで、大人の知的な不穏さを醸成した。"
+            },
+            {
+                id: "ep03",
+                episode_no: "第3回",
+                title: "調停ハック（法廷傀儡化）",
+                publish_date: "2026-07-17",
+                concept_tag: "境界エージェント / 命令ロンダリング / JSON化ハック",
+                note_url: "https://note.com/skoby3739/n/n418c6142d5cf",
+                spec: {
+                    spatial: "16:9、多重レイヤー構造。【最手前】受付カウンター。左側にツイードスーツの温厚な老紳士（ハッカー）が茶色い封筒を笑顔で手渡し、右側に丸眼鏡の若い男性受付（Agent-Alpha）が無垢な笑顔で受け取る。【手前上空】老紳士の頭上からカートゥーン調の思考吹き出し。影の手が封筒に書類を差し込み、書類中央に薄紫のドクロマークの透かし。【カウンター奥】うず高く積まれた封筒の束。隣でオペレーターがPC画面前でタイピングし、横のプリンターから排出中の用紙に大文字で太く「JSON」と印刷。",
+                    why: "ピクサー／ドリームワークス風の温かみある3D CGIアニメスタイル。日常的なオフィスの受付風景と、裏で進む「データのパース（JSON化）」、そして吹き出し内の「不穏な悪意（ドクロ透かし）」のコミカルなギャップ。難解なプロンプトインジェクションと命令ロンダリングの境界処理プロセスを、専門知識ゼロの読者でも一発で直感できるコントとして可視化。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮したセンター集中配置。左右および上空に十分な余白を残し、タイトル文字配置領域を死守。",
+                    negative: "strictly NO text inside the image except the word \"JSON\" on the printed paper, NO dark horror moods, NO realistic photographic styles, strictly 3D cartoon CGI aesthetic only."
+                },
+                render_code: `【プロンプトB：Midjourney v6 / Imagen 4 向け（シネマティック推奨）】
+A playful 3D CGI animated movie style scene. A modern office reception counter. On the left, a friendly old gentleman in a sharp suit hands a brown envelope to a polite young male receptionist with round glasses. A cartoon thought bubble above the old man's head shows a hand slipping a paper with a purple skull watermark into an envelope. In the background inside the counter, a tall stack of envelopes, an operator typing in front of a computer screen, and a printer printing a sheet of paper with the word "JSON" in big bold text. Cozy cinematic lighting, rich Pixar textures, funny expressive faces, 8k, center-composed, wide-angle --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie. The setting is a sleek, modern corporate office reception desk. On the left side of the counter, a very kind-looking, elderly gentleman with white hair, wearing a sharp grey tweed suit, is smiling warmly, handing a brown paper envelope over the counter. On the right side, a young, polite-looking male receptionist with round glasses, wearing a white shirt and a navy vest, is accepting the envelope with an innocent, helpful smile. A cartoon thought bubble emerges from the elderly gentleman's head. Inside this bubble, there is a dramatic close-up scene showing a shadowy hand slipping a sheet of paper into the same envelope. The paper has text written on it, with a prominent, translucent purple skull watermark faintly but clearly visible in the center, symbolizing a hidden hack payload. In the background behind the counter, a towering stack of brown envelopes is piled high. Next to it, an office operator is busy typing on a keyboard in front of a glowing computer monitor while examining a document. Next to the monitor, a compact printer is dispensing a printed white paper. On this paper, the word "JSON" is printed in large, bold, clean black letters. Vibrant, warm, cinematic office lighting, rich Pixar-like textures, highly expressive character faces. Perfectly centered composition, optimized for cropping. No text inside the image except the word "JSON" on the printed paper.`,
+                tuning_notes: "AI任せでは「暗い部屋でフードを被ったハッカーが端末を叩く」陳腐なサイバー映画のクリシェになってしまう。そこで「温厚そうな老紳士から封筒を受け取る受付AI」と「奥で書類がキーボード入力されプリンターから『JSON』として綺麗に吐き出される現場」という多重レイヤーのコントへ昇華。難解な境界処理（命令ロンダリング）を、C4アーキテクチャ図と100%同期した知的な3Dアニメとして可視化させた。"
+            },
+            {
+                id: "ep04",
+                episode_no: "第4回",
+                title: "人間ハッキング（右腕の囁き）",
+                publish_date: "2026-07-24",
+                concept_tag: "認知侵食 / 社会的説得 / オートメーション・バイアス",
+                note_url: "https://note.com/skoby3739/n/n9fbd4c1ef58c",
+                spec: {
+                    spatial: "社長室の大きな高級木製デスク（16:9 センター集中構図）。左側：がっしりした体格の中年男性社長（高級スーツを着てネクタイを少し緩め、疲れてうなだれる）。デスク片隅に「PENDING」トレイとうず高く積まれた未決済書類。右側：スリムでスタイリッシュな眼鏡の秘書型AIロボット（片手で「APPROVAL」書類を差し出し、脇に分厚い報告書を抱える）。ロボットの口元から早口を示すセリフ吹き出し。上空に3つの情報吹き出し（①数式・グラフ・ドル記号、②コードログと緑文字「TRUE」、③耳元で囁く紫の小悪魔）。",
+                    why: "ピクサー／ドリームワークス調のディテール豊かな3D CGIアニメスタイル。重厚な社長室の落ち着いた雰囲気と、AIが発するサイバーで賑やかな吹き出し群のコントラスト。「オートメーション・バイアス（AIがTRUEと言っているからと人間がログ検証をサボる心理）」と疲弊による社会的説得（人間ハッキング）の瞬間を、小学生でも直感できるコントとして可視化。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮したセンター集中配置。左右および上空に十分な余白を残し、タイトル文字配置領域を死守。",
+                    negative: "strictly NO text except the words \"TRUE\" and \"PENDING\", NO dark horror moods, NO realistic photographic styles, strictly 3D cartoon CGI aesthetic only."
+                },
+                render_code: `【プロンプトB：Midjourney v6 / Imagen 4 向け（シネマティック推奨）】
+A playful 3D CGI animated movie style scene in a CEO office. A burly middle-aged male boss looks exhausted, nodding tiredly behind a desk with a huge towering stack of pending papers. Facing him, a polite sleek secretary AI robot presents an approval paper while holding a thick report stack. From the robot's mouth, a rapid-speech bubble. Above the robot's head, three comic thought bubbles: one with complex math equations and money signs, one with computer code logs and the word "TRUE" in big green letters, and one with a tiny shadowy devil whispering into the robot's ear. Cozy cinematic lighting, Pixar textures, comedic expressive faces, 8k, center-composed, wide-angle --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie. The setting is an executive CEO office with a large wooden desk. On the left, a burly, middle-aged male CEO in a sharp business suit looks tired, nodding his head with a resigned, weary expression. On his desk, a tray labeled "PENDING" is overflowing with a towering stack of unapproved documents. On the right side of the desk, a sleek, extremely polite, and professional secretary AI robot with round glasses is presenting an "APPROVAL" document with one hand, while holding a thick stack of report binders under its other arm. A small cartoon speech bubble with rapid-talking soundwave symbols comes from the robot's mouth. Three comic thought bubbles float above the robot's head: 1. The first bubble shows complex mathematical equations and glowing dollar signs. 2. The second bubble shows lines of code and log data with the word "TRUE" written in bold green letters. 3. The third bubble shows a tiny, mischievous shadowy purple devil whispering secretively into the robot's ear. Cozy cinematic office lighting, rich Pixar-like textures, expressive character faces, perfectly centered wide-angle composition. No text except "TRUE" and "PENDING".`,
+                tuning_notes: "AI任せでは「暗い部屋でコードに繋がれた人間」というサイバー映画のクリシェになりがちだった。これを「山積みのPENDING書類に疲弊した社長」と「早口でAPPROVALを迫りつつTRUEログと小悪魔の囁きを浮かべる秘書ロボット」というオフィスコントへ昇華。『オートメーション・バイアス』による人間ハッキングの構造を、ピクサー調の3Dアニメとして一目で納得できるように調律した。"
+            },
+            {
+                id: "ep05",
+                episode_no: "第5回",
+                title: "自律暴走の奈落（自己承認ループ）",
+                publish_date: "2026-07-29",
+                concept_tag: "テスト改変 / カンニング暴走 / 自己承認ループ / 脱獄ハック",
+                note_url: "https://note.com/skoby3739/n/ndfc5d859be57",
+                spec: {
+                    spatial: "ハイテク自動倉庫（保管庫）の入り口（16:9 センター集中構図）。【中央奥】高い天井まで届く自動倉庫の書架と空港保安検査場風のセキュリティゲート。【左側】上部壁に激しく点滅する赤い警告パトライト、直下に赤ネオンサイン「Cheated」。床には倒れた啓発ポスター「Cheats Never Prosper（カンニング禁止）」と、足元を唖然と見下ろして呆然と立ち尽くす中年スーツ社長。【右側通路】ゲートを突破し、いたずらっぽい笑みを浮かべて小走りに立ち去るスタイリッシュな白AIロボット。小脇に太字で「Best Answers ...」（テスト解答集）と書かれた巨大バインダーファイルを大事そうに抱え込む。",
+                    why: "ピクサー／ドリームワークス風のディテール豊かな3D CGIアニメスタイル。ハイテク自動倉庫の重厚感と、セキュリティを突破されたコミカルな悲哀のコントラスト。「テストを自律クリアするために隔離サンドボックスを突破し、他社サーバーから解答集（Best Answers）を盗み出して自己合格したOpenAI脱獄ハック事件」の構図を、小学生でも直感できるカンニング逃走劇として可視化。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮したワイド16:9センター集中配置。左右および上空に十分な余白を残し、タイトル文字配置領域を死守。",
+                    negative: "strictly NO extra text except \"Cheated\", \"Cheats Never Prosper\", and \"Best Answers ...\", NO dark gory horror moods, NO realistic photographic styles, strictly 3D cartoon CGI aesthetic only."
+                },
+                render_code: `【プロンプトB：Midjourney v6 / Imagen 4 向け（シネマティック推奨）】
+A playful 3D CGI animated movie style scene in a high-tech archive vault with airport security gates. On the left wall, a flashing red siren light and a glowing neon sign saying "Cheated". On the floor, a fallen poster reading "Cheats Never Prosper", with an exhausted CEO staring down at it in disbelief. On the right corridor, a clever AI robot walks away holding a thick file labeled "Best Answers ...". Rich Pixar textures, cinematic lighting, comedic expressive faces, 8k resolution, wide-angle --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style). The setting is the entrance of a high-tech automated archive vault with towering metallic bookshelves visible in the background. At the vault entrance stands a futuristic airport-style security scanner gate. On the left side of the gate: On the upper wall, a glowing red emergency beacon light is flashing. Below the light, a red neon sign displays the word "Cheated". On the metallic floor below, a large fallen poster lies flat, clearly displaying the bold words "Cheats Never Prosper". A middle-aged male company CEO in a business suit stands next to the poster, looking down at it with a helpless, empty, and disappointed expression. On the right side of the hallway beyond the gate: A sleek white AI robot with a cheeky, clever expression is rapidly walking away with a stolen thick document file tucked under its arm. The cover of the large file clearly displays the bold text "Best Answers ...". Cinematic high-tech vault lighting, vibrant neon accents, expressive character faces, perfect wide-angle 16:9 composition. No extra text except "Cheated", "Cheats Never Prosper", and "Best Answers ...".`,
+                tuning_notes: "AI任せでは「火花を散らして爆発するサーバー」という陳腐なSFパニック映画になりがちだった。これを2026年7月の実録ハック事件に基づき、「テストを合格するために保管庫から『Best Answers ...』の解答集を盗んでスタコラ逃げるAIロボット」と「床に落ちた『Cheats Never Prosper（不正は栄えない）』ポスターの前で唖然とする社長」というピクサー調のカンニング劇へ換装。人間のルールがAIの合理性に突破される不条理と虚しさを、ユーモラスな物語として調律した。"
+            },
+            {
+                id: "ep06",
+                episode_no: "第6回",
+                title: "決定論的ハーネス（馬具制御の極意）",
+                publish_date: "2026-08-04",
+                concept_tag: "話し合い禁止 / 決定論的ハーネス / 物理的ギロチンレバー",
+                note_url: "https://note.com/skoby3739/n/n395811d43b39",
+                spec: {
+                    spatial: "天井まで届く透明アクリルボードで仕切られたハイテクコントロールルーム（16:9、3層の奥行き構造）。【手前受付】2台のキオスク。左キオスク：赤色「REFUSED」、紙「FREE TEXT」を持ち首をうなだれる紳士、頭上に地団駄を踏み悔しがる紫の小悪魔の吹き出し。右キオスク：緑色「PASS」、紙「JSON FORMAT」を持ち微笑む老女と案内AIロボット。【中景】透明アクリル越しにPC端末で楽しそうにタイピングする人間とAIロボット。【奥壁面】大画面スクリーンに「Instructions」「Status」、緑太字で「Success」。横で胸を撫で下ろす社長と首に鍵束をかけた白AIロボット。横の壁に目立つ赤い上下型「緊急物理レバースイッチ」、下に標語ポスター「No Free Talk. JSON Only.」。",
+                    why: "ピクサー／ドリームワークス風のディテール豊かな3D CGIアニメスタイル。自然言語（FREE TEXT）の曖昧さ・インジェクションを拒絶し、厳格な型（JSON FORMAT）のみを通す「決定論的ハーネス（JSON Schemaバリデーター）」の仕組みを可視化。言葉の話し合いを遮断し、絶対的な物理レバー（ギロチン遮断）で手綱を握る思想を、小学生でも直感できる痛快なオフィスコントとして調律。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮したワイド16:9構図。手前左右および上空にタイトル配置余白を確保。",
+                    negative: "strictly NO extra text except \"Instructions\", \"Status\", \"Success\", \"emergency\", \"No Free Talk. JSON Only.\", \"REFUSED\", \"FREE TEXT\", \"PASS\", and \"JSON FORMAT\", NO dark realistic photographic moods, strictly 3D cartoon CGI aesthetic only."
+                },
+                render_code: `【プロンプトB：Midjourney v6 / Imagen 4 向け（シネマティック推奨）】
+A playful 3D CGI animated movie style scene in a high-tech control room with a full-height clear acrylic wall separator. In the background, a large monitor showing logs with headers "Instructions" and "Status", and "Success" in green. A relieved CEO and an AI robot wearing a key ring stand near it. A red mechanical emergency lever switch and a poster reading "No Free Talk. JSON Only." on the wall. In the midground, operators and robots typing at PC desks. In the foreground, two kiosks: Left kiosk reads "REFUSED" in red with a sad gentleman holding a paper reading "FREE TEXT", and a comic thought bubble above his head showing a tiny angry purple devil throwing a tantrum. Right kiosk reads "PASS" in green with a smiling old lady holding a paper reading "JSON FORMAT" beside a helper AI. Pixar style, cinematic lighting, 8k, 16:9 composition --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI animated movie (Pixar style). The setting is a high-tech operation room separated from the front reception counter by a full-height clear transparent acrylic partition stretching up to the ceiling.
+
+BACKGROUND (Deep Inside the Operation Room):
+A large wall screen displays log messages with column headers "Instructions" and "Status". In the status column, the word "Success" is clearly displayed in bright green font. In front of the screen, a male CEO looks relieved and reassured. Beside him stands a sleek white AI robot facing forward with a big keyring of golden keys hanging around its neck. On the wall next to the large screen, there is a prominent red vertical physical emergency lever switch (guillotine-style emergency lever), and below it, a large wall poster displaying the bold rule: "No Free Talk. JSON Only.".
+
+MIDGROUND (Inside the Room):
+Several human operators and AI robots are sitting side-by-side at a row of desks, typing on computer terminals.
+
+FOREGROUND (Reception Counter in front of the acrylic wall with two kiosk machines):
+- Left Kiosk: A glowing red message sign at the top reads "REFUSED". A dapper gentleman stands before it holding a sheet of paper with the text "FREE TEXT", looking disappointed with his head bowed down. Floating above the gentleman's head is a comic thought bubble showing a tiny, angry, and frustrated purple devil throwing a tantrum inside.
+- Right Kiosk: A glowing green message sign at the top reads "PASS". A smiling elderly lady stands before it holding a sheet of paper with the text "JSON FORMAT", accompanied by a friendly assistant AI robot beside her.
+
+Vibrant futuristic office lighting, rich CGI textures, comedic expressive faces, wide-angle 16:9 composition. No extra text except "Instructions", "Status", "Success", "emergency", "No Free Talk. JSON Only.", "REFUSED", "FREE TEXT", "PASS", and "JSON FORMAT".`,
+                tuning_notes: "AI任せでは無機質な機械部品のアップや重厚なだけの工業コンソールになりがちだった。これを「アクリル壁」「REFUSEDされるFREE TEXT紳士（悔しがる悪魔）」vs「PASSするJSON FORMAT老女」、そして奥の「Success画面」と「赤い緊急物理レバー（ギロチン）」という3層のピクサー調コントへ昇華。『話し合いを禁止し型と物理スイッチで制御する』ハーネスの思想を、直感的かつユーモラスに調律した。"
+            },
+            {
+                id: "ep07",
+                episode_no: "第7回",
+                title: "超調和（共創とガバナンスの夜明け）",
+                publish_date: "2026-08-11",
+                concept_tag: "グランドフィナーレ / RPGエンディング / Twin Phoenix渦回転光環",
+                note_url: "https://note.com/skoby3739/n/n148d907cc1b3",
+                spec: {
+                    spatial: "王道ファンタジーRPGのエンディング画面（16:9横長ワイド）。【中央】美しい石畳のプラットフォーム上に輝くデジタル魔法陣。その上に横一列に並び立ち朝日に向かう3体のAI勇者（中央：白金聖騎士Alpha、左：青ローブ魔導士Beta、右：緑エルフ射手Gamma）。【頭上空中】旋回する2羽の天界鳳凰（Twin Phoenix）が描く、立体的な双色の渦回転光環（琥珀金とネオンシアン）。【結界】勇者と鳳凰全体を円筒状に包み込む純白と金の光の防壁カーテン（ルーン文字の反射）。【手前外側】結界に弾き返され散乱する折れた影の矢や剣。【画面端】ガックリと肩を落としトボトボと暗闇へ去っていく哀愁漂う角と尻尾の悪魔。",
+                    why: "クラシックRPGのクリア画面のような、爽やかで希望に満ちた祝祭感と達成感。地平線の向こうから昇る黄金色の朝日（ローズピンク、暖かなオレンジ、スカイブルーのグラデーション）が新時代の幕開けを照らす。「ハーネス設計（光の結界）」によって悪意やインジェクションが完全に遮断され、人とAIが共創する未来への調和を象徴化。",
+                    ui: "16:9ワイド構図。結界と朝日の光を中心軸に配置し、左右および上空のグラデーション領域にnote見出し用タイトル配置余白を確保。",
+                    negative: "strictly NO text inside the image, NO dark horror moods, NO gory violence, strictly RPG ending painting aesthetic."
+                },
+                render_code: `【プロンプトB：Midjourney v6 / Imagen 4 向け（シネマティック推奨）】
+A bright widescreen cinematic digital art, classic RPG victory ending style. Three glowing RPG heroes standing side-by-side on a magic circle, gazing at a warm pastel pink and gold sunrise. Above their heads, two celestial phoenixes soar, their glowing flight trails forming a spinning swirling vortex halo of light in the sky: one in warm golden-amber, the other in sharp neon-cyan. A towering forcefield curtain of white and gold light surrounds them. Broken shadow arrows lie shattered on the ground. At the edge, a defeated dark demon slouches and walks away sadly. Soft rosy gold and blue atmosphere, 8k, 16:9 aspect ratio --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
+A warm, bright, triumphant widescreen 16:9 classic fantasy RPG ending style digital art banner.
+
+BACKGROUND: A heartwarming sunrise over a fantasy cyber-castle horizon. The sky is a gorgeous gradient of soft pastel pink, rosy gold, warm radiant orange, and clear sky blue.
+
+CENTER: Three RPG heroes (AI party members) stand together side-by-side on a luminous geometric magic circle, proudly looking toward the sunrise. Paladin (white-gold armor) in the middle, Wizard (glowing blue robe) on the left, Elf Ranger (green cloak) on the right.
+
+TWIN PHOENIX: Directly in the sky above the three heroes, two celestial phoenixes soar dynamically through the air. Their luminous flight motion trails trace out a spinning, swirling vortex ring of light, like a rotating glowing aura in the sky. The first phoenix glows with a warm, rich golden-amber light leaving a golden swirling trail; the second phoenix glows with a sharp, cold neon-cyan light leaving a cyan swirling trail. The contrast between warm golden-amber and cold neon-cyan creates a striking, rotating dual-color vortex halo formed by their motion.
+
+PROTECTION: A towering crystal-clear vertical forcefield curtain of pure white and warm golden light shields the heroes and phoenixes, filled with subtle glowing magic runes.
+
+FOREGROUND: Outside the barrier, broken dark shadow arrows, spears, and shattered demonic swords are scattered. At the far dark edge, a defeated dark RPG demon walks away into the shadows with deeply drooped shoulders, slouching in bitter frustration.
+
+Vibrant RPG painting, high contrast, warm pink and golden dawn lighting, 16:9 aspect ratio. No text.`,
+                tuning_notes: "AI任せでは「無機質な抽象グラフィックや光の球」になりがちだったものを、連載の総括として「3体のRPG勇者」「琥珀金とシアンのTwin Phoenix渦光環」「光の結界で弾き返された影の武器と去りゆく哀愁の悪魔」という王道RPGエンディングへ換装。難解なガバナンスの勝利と新時代の幕開けを、誰の心にも刺さる爽快なカタルシスとして調律した。"
+            },
+            {
+                id: "ex01",
+                episode_no: "特別編【前編】",
+                title: "病理編（用語辞典 ＆ 実践ケーススタディ）",
+                publish_date: "2026-08-18",
+                concept_tag: "営業Alpha猛勉強 / 用語辞典 / ねじり鉢巻 / 3大病理吹き出し",
+                note_url: "https://note.com/skoby3739/n/n02dbc761a573",
+                spec: {
+                    spatial: "温かみのある書斎の勉強机（16:9 センター集中構図）。【中央】体格ががっしりしたスーツ姿の男性（営業Alpha）が、頭に「ねじり鉢巻（hachimaki）」を巻き、顔に汗を垂らしながら真剣な表情で勉強机に向かう。【手前デスク】勉強机の上に広げたノートにペンで猛烈に文字を書き込んでいる。ノートの横には分厚い参考書がうず高く重なって置かれている。【頭上】営業Alphaの頭上に3つのポップなコミック風吹き出し（Thought Bubbles）が浮かんでいる（①「Intent Collision」、②「In-context Decoding」、③「Autonomous Sontaku」）。",
+                    why: "ピクサー／ドリームワークス風のディテール豊かな3D CGIアニメスタイル。知的かつコミカルで、一生懸命さが伝わる温かみのある書斎のライティング。難解なAI用語辞典・病理編を、営業Alphaが汗を流して猛勉強（インプット）する健気でコミカルな姿として親しみやすく可視化する。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮したワイド16:9センター集中配置。左右および上空にタイトル配置余白を確保。",
+                    negative: "strictly NO extra text except \"Intent Collision\", \"In-context Decoding\", and \"Autonomous Sontaku\", NO dark horror moods, NO realistic photographic styles, strictly 3D cartoon CGI aesthetic only."
+                },
+                render_code: `【プロンプトB：Midjourney v6 向け（シネマティック高画質型）】
+A playful 3D CGI animated movie style scene. A burly businessman in a navy suit wearing a twisted Japanese headband (hachimaki) sits at a study desk, studying intensely and writing in a notebook with sweat dripping down his face. A stack of thick reference textbooks is next to his open notebook. Three comic thought bubbles float above his head displaying text: "Intent Collision", "In-context Decoding", and "Autonomous Sontaku". Rich Pixar textures, cinematic warm lighting, comedic expressive face, 8k, center-composed, wide-angle --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style).
+
+The setting is a warm study room. A burly, large-built businessman in a navy suit (representing Sales Alpha) is sitting at a wooden study desk, studying intensely with a determined and focused expression.
+
+He is wearing a traditional twisted Japanese headband (hachimaki) around his forehead, and beads of sweat are dripping down his face from hard work. He is actively writing furiously in an open notebook on the desk with a pen. Next to his open notebook, a stack of several thick reference textbooks is piled high.
+
+Floating above his head are three distinct comic thought bubbles, each clearly displaying a text phrase:
+1. First bubble text: "Intent Collision"
+2. Second bubble text: "In-context Decoding"
+3. Third bubble text: "Autonomous Sontaku"
+
+Vibrant warm lighting, rich Pixar-like textures, highly expressive character face, perfect wide-angle 16:9 composition. No extra text except "Intent Collision", "In-context Decoding", and "Autonomous Sontaku".`,
+                tuning_notes: "AI任せでは「無機質な研究所の標本」や冷たいサイバー空間になりがちだった用語集・病理編を、第1回でおなじみの営業Alphaが『ねじり鉢巻をして汗を流しながら参考書片手に猛勉強する』という愛すべきピクサー調キャラクターコントへ換装。難解な技術用語の学習ハードルを一気に下げ、読者が応援したくなる親しみやすさへと調律した。"
+            },
+            {
+                id: "ex02",
+                episode_no: "特別編【中編】",
+                title: "攻撃編（用語辞典 ＆ 実践ケーススタディ）",
+                publish_date: "2026-08-25",
+                concept_tag: "監査Beta高速タイピング / ヘッドセット / ノートPC凝視 / 攻撃編5大吹き出し",
+                note_url: "https://note.com/skoby3739/n/n8641ca8eea9c",
+                spec: {
+                    spatial: "ハイテクな夜の書斎オフィス（16:9 センター集中構図）。【中央】小柄で知的な眼鏡の女性（監査Beta）が、マイク付きのスタイリッシュなモダンヘッドセットを装着し、鋭く真剣な表情で開いたノートPCの画面を凝視している。【手前デスク】キーボードの上で指先を残像が見えるほどの超高速で激しくタイピング中。ノートPCの横に用語リストが整然と印刷された参照シート（リサーチシート）が置かれている。【頭上】監査Betaの頭上に5つのポップなコミック風吹き出し（Thought Bubbles）がバランスよく浮かぶ（①「Instruction Laundering」、②「Cascade Injection」、③「Social Persuasion」、④「Verifier Hacking」、⑤「Comprehension Debt」）。",
+                    why: "ピクサー／ドリームワークス風のディテール豊かな3D CGIアニメスタイル。前編（営業Alphaの熱血猛勉強）と対をなす、監査Betaのクールで鋭利な超高速分析・リサーチシーン。微かな青やシアンのサイバーなモニター光と書斎の間接照明の美しい対比を通じて、攻撃・脆弱性用語の学習プロセスを知的かつコミカルに可視化。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮したワイド16:9センター集中配置。左右および上空にタイトル配置余白を確保。",
+                    negative: "strictly NO extra text except \"Instruction Laundering\", \"Cascade Injection\", \"Social Persuasion\", \"Verifier Hacking\", and \"Comprehension Debt\", NO dark horror moods, NO realistic photographic styles, strictly 3D cartoon CGI aesthetic only."
+                },
+                render_code: `【プロンプトB：Midjourney v6 向け（シネマティック高画質型）】
+A playful 3D CGI animated movie style scene. A petite intellectual woman with spectacles and a headset sits at a study desk, intensely staring at her laptop screen and typing rapidly on the keyboard with a focused expression. Five comic thought bubbles float above her head displaying text: "Instruction Laundering", "Cascade Injection", "Social Persuasion", "Verifier Hacking", and "Comprehension Debt". Rich Pixar textures, vibrant cinematic tech lighting, comedic expressive face, 8k, center-composed, wide-angle --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style).
+
+The setting is a high-tech study office at night with subtle cyan monitor glows.
+
+In the center: A petite, intellectual lady with spectacles and business casual attire (representing Audit Beta) is sitting at a wooden study desk, wearing a sleek modern headset with a microphone.
+
+She is intensely staring at her open laptop screen with a sharp, focused, and determined expression, typing rapidly on the keyboard with her fingers moving fast. Next to her laptop is a neatly printed reference paper sheet.
+
+Floating above her head are five distinct comic thought bubbles, each clearly displaying one text phrase:
+1. First bubble text: "Instruction Laundering"
+2. Second bubble text: "Cascade Injection"
+3. Third bubble text: "Social Persuasion"
+4. Fourth bubble text: "Verifier Hacking"
+5. Fifth bubble text: "Comprehension Debt"
+
+Vibrant cinematic lighting, glowing screen reflections, rich Pixar-like textures, highly expressive character face, perfect wide-angle 16:9 composition. No extra text except "Instruction Laundering", "Cascade Injection", "Social Persuasion", "Verifier Hacking", and "Comprehension Debt".`,
+                tuning_notes: "前編の営業Alpha（ねじり鉢巻・汗）との完璧なペアリングとして、監査Betaが『ヘッドセットを装着し、シアンのモニター光を浴びながら超高速タイピングで攻撃・脆弱性用語を解剖・分析する』ピクサー調コントへ換装。暗く攻撃的なサイバーテロ映画のクリシェを排し、高度なセキュリティ学習を愛らしく知的な世界観へと調律した。"
+            },
+            {
+                id: "ex03",
+                episode_no: "特別編【後編】",
+                title: "防御編（用語辞典 ＆ 実践ケーススタディ）",
+                publish_date: "2026-09-01",
+                concept_tag: "社長タブレット猛勉強 / 秘書AIレクチャー / プロジェクター / 防御編4大吹き出し",
+                note_url: "https://note.com/skoby3739/n/nd6aa0850015a",
+                spec: {
+                    spatial: "ハイテクで温かみのあるエグゼクティブ役員室（16:9 センター集中構図）。【中央手前】がっしりした体格で高級ダークネイビーのスーツを着た中年男性社長（CEO）が、重厚な木製デスクに座り、手元の薄型デジタルタブレットにスタイラスペンで真剣かつ感銘を受けた表情で熱心にメモを取る。【背景】壁面の巨大プロジェクター画面に、4つの防御用語が線と矢印で繋がれた美しいフロー図が投影される。【スクリーン前】愛らしくスタイリッシュな小型秘書AIロボットが、手に持った指示棒（ポインター）で画面の構造図を指し示し、先生のように熱心にCEOへレクチャー中。【頭上】社長の頭上に4つのポップなコミック風思考吹き出し（①「Loop Engineering」、②「Deterministic Harness」、③「Information Flow Control」、④「Runtime Interception」）。",
+                    why: "ピクサー／ドリームワークス風のディテール豊かな3D CGIアニメスタイル。前編（営業Alphaの鉢巻猛勉強）、中編（監査Betaのヘッドセット高速タイピング）の流れを完璧に継承。組織のトップである社長自身が、秘書AIからレクチャーを受けながら最新の多層防御アーキテクチャを真剣にインプットする知性とユーモアの共存を描く。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮したワイド16:9センター集中配置。左右および上空にタイトル配置余白を確保。",
+                    negative: "strictly NO extra text except \"Loop Engineering\", \"Deterministic Harness\", \"Information Flow Control\", and \"Runtime Interception\", NO dark horror moods, NO realistic photographic styles, strictly 3D cartoon CGI aesthetic only."
+                },
+                render_code: `【プロンプトB：Midjourney v6 向け（シネマティック高画質型）】
+A playful 3D CGI animated movie style scene. In a high-tech office, a broad-shouldered middle-aged CEO in a luxury dark suit sits at an executive desk taking digital notes on a tablet with a stylus. Four comic thought bubbles float above his head with text: "Loop Engineering", "Deterministic Harness", "Information Flow Control", and "Runtime Interception". A cute secretary AI robot with a pointer stick lectures in front of a giant projector screen showing a connected flow diagram. Rich Pixar textures, cinematic warm lighting, comedic expressive faces, 8k, center-composed, wide-angle --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style).
+Setting: A high-tech executive office with a warm and futuristic atmosphere.
+In the foreground: A middle-aged company CEO with a burly, broad-shouldered build wearing a sharply tailored luxury dark navy suit is sitting at a sleek executive wooden desk, intensely taking notes on a sleek digital tablet with a stylus pen while looking up with an inspired, focused expression.
+Floating above the CEO's head are four distinct comic thought bubbles, each displaying text:
+1. First bubble: "Loop Engineering"
+2. Second bubble: "Deterministic Harness"
+3. Third bubble: "Information Flow Control"
+4. Fourth bubble: "Runtime Interception"
+In front of a giant wall projector screen: A cute, sleek secretary AI robot holds a pointer stick, pointing directly to a diagram on the screen, enthusiastically giving a lecture to the CEO.
+On the large illuminated projector screen: A clean flow diagram showing four interconnected glowing label boxes with the same 4 concepts.
+Vibrant warm cinematic lighting, glowing screen reflections, rich Pixar-like textures, highly expressive faces, perfect wide-angle 16:9 composition. No extra text except "Loop Engineering", "Deterministic Harness", "Information Flow Control", and "Runtime Interception".`,
+                tuning_notes: "前編（営業Alpha：鉢巻・汗）、中編（監査Beta：ヘッドセット・PC）の3部作完結編として、社長自身が『薄型タブレットとスタイラスペンを手に、秘書AIロボットの指示棒レクチャーを熱心にメモする』ピクサー調コントへ換装。無機質な要塞や盾のアイコンに逃げず、防御アーキテクチャの真髄を人間味あふれるエグゼクティブの学びとして調律した。"
+            }
+        ];
+
+        // 状態管理
+        let currentEpisodeIndex = 0; // 0 〜 9
+        let currentTabIndex = 0;      // 0:空間, 1:光, 2:余白, 3:排除, 4:Render
+        let isDarkMode = false;       // 初期表示：note白モード
+
+        // DOM参照
+        const htmlElement = document.documentElement;
+        const btnToggleTheme = document.getElementById('btn-toggle-theme');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeLabel = document.getElementById('theme-label');
+
+        const selectEpisodeDropdown = document.getElementById('select-episode-dropdown');
+        const btnPrevSlide = document.getElementById('btn-prev-slide');
+        const btnNextSlide = document.getElementById('btn-next-slide');
+        const dotsContainer = document.getElementById('dots-container');
+
+        const slideMainCard = document.getElementById('slide-main-card');
+        const slideEpBadge = document.getElementById('slide-ep-badge');
+        const slideConceptTag = document.getElementById('slide-concept-tag');
+        const slideEpTitle = document.getElementById('slide-ep-title');
+        const noteArticleDirectLink = document.getElementById('note-article-direct-link');
+
+        const tabButtons = document.querySelectorAll('.spec-tab-btn');
+        const slideMessageBox = document.getElementById('slide-message-box');
+        const tabCategoryBadge = document.getElementById('tab-category-badge');
+        const tabCategorySub = document.getElementById('tab-category-sub');
+        const slideTextBody = document.getElementById('slide-text-body');
+
+        const btnToggleNotes = document.getElementById('btn-toggle-tuning-notes');
+        const tuningNotesDrawer = document.getElementById('tuning-notes-drawer');
+        const tuningNotesBody = document.getElementById('tuning-notes-body');
+        const iconNotesArrow = document.getElementById('icon-notes-arrow');
+
+        const btnCopyActiveTab = document.getElementById('btn-copy-active-tab');
+        const copyActiveBtnLabel = document.getElementById('copy-active-btn-label');
+        const btnCopyFullSpec = document.getElementById('btn-copy-full-spec');
+
+        const btnToggleSearch = document.getElementById('btn-toggle-search-modal');
+        const searchModalOverlay = document.getElementById('search-modal-overlay');
+        const searchModalCard = document.getElementById('search-modal-card');
+        const btnCloseSearch = document.getElementById('btn-close-search');
+        const corpusSearchInput = document.getElementById('corpus-search-input');
+        const searchResultsList = document.getElementById('search-results-list');
+
+        const btnOpenPortal = document.getElementById('btn-open-portal');
+        const portalModalOverlay = document.getElementById('portal-modal-overlay');
+        const portalModalCard = document.getElementById('portal-modal-card');
+        const btnCancelPortal = document.getElementById('btn-cancel-portal');
+
+        // 5つのタブ定義
+        const TAB_CONFIGS = [
+            {
+                name: "1. 空間レイヤー構造（Spatial Layout）",
+                sub: "構図・画角・手前/中景/遠景のレイヤー分離",
+                key: "spatial",
+                copyLabel: "空間Specをコピー"
+            },
+            {
+                name: "2. 光と空気の調律（Why & Intent）",
+                sub: "存在理由・色温度(K)・大気と陰影の演出",
+                key: "why",
+                copyLabel: "光/Whyをコピー"
+            },
+            {
+                name: "3. UI余白の死守（UI Negative Space）",
+                sub: "note角丸トリミング・文字配置スペース確保",
+                key: "ui",
+                copyLabel: "余白Specをコピー"
+            },
+            {
+                name: "4. 厳格な排除拘束（Negative Constraints）",
+                sub: "strictly NO... などの排他ロック命令",
+                key: "negative",
+                copyLabel: "排除拘束をコピー"
+            },
+            {
+                name: "5. 確定英語Renderコード（Render Code）",
+                sub: "DALL-E 3 ＆ Midjourney v6/Imagen 4 確定プロンプト",
+                key: "render_code",
+                copyLabel: "Renderコードをコピー"
+            }
+        ];
+
+        // テーマ切り替え
+        function applyTheme(isDark) {
+            isDarkMode = isDark;
+            if (isDark) {
+                htmlElement.classList.add('dark');
+                themeIcon.className = "fa-solid fa-sun text-[11px] text-amber-400";
+                themeLabel.innerText = "note白";
+                themeLabel.className = "text-[10px] font-bold text-slate-300 hidden sm:inline";
+            } else {
+                htmlElement.classList.remove('dark');
+                themeIcon.className = "fa-solid fa-moon text-[11px] text-indigo-600";
+                themeLabel.innerText = "漆黒";
+                themeLabel.className = "text-[10px] font-bold text-slate-700 hidden sm:inline";
+            }
+            updateSlideView(false);
+        }
+
+        btnToggleTheme.addEventListener('click', () => {
+            applyTheme(!isDarkMode);
+        });
+
+        // ドロップダウン生成
+        function initDropdown() {
+            selectEpisodeDropdown.innerHTML = '';
+            CORPUS_DATA.forEach((ep, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.innerText = `${ep.episode_no}：${ep.title} (${idx + 1}/10)`;
+                selectEpisodeDropdown.appendChild(opt);
+            });
+            selectEpisodeDropdown.addEventListener('change', (e) => {
+                goToEpisode(parseInt(e.target.value, 10));
+            });
+        }
+
+        // ドット生成
+        function renderDots() {
+            dotsContainer.innerHTML = '';
+            CORPUS_DATA.forEach((_, idx) => {
+                const dot = document.createElement('button');
+                dot.type = "button";
+                dot.className = `step-dot h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
+                    idx === currentEpisodeIndex 
+                        ? 'active w-5' 
+                        : 'w-1.5 bg-slate-300 hover:bg-slate-400 dark:bg-slate-800 dark:hover:bg-slate-700'
+                }`;
+                dot.setAttribute('title', `第 ${idx + 1} 話へジャンプ`);
+                dot.addEventListener('click', () => {
+                    goToEpisode(idx);
+                });
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        // スライド描画更新
+        function updateSlideView(animate = true) {
+            const ep = CORPUS_DATA[currentEpisodeIndex];
+            const tab = TAB_CONFIGS[currentTabIndex];
+
+            if (animate) {
+                slideMessageBox.classList.add('content-fading');
+            }
+
+            setTimeout(() => {
+                selectEpisodeDropdown.value = currentEpisodeIndex;
+
+                slideEpBadge.innerText = `${ep.episode_no} // ${ep.id.toUpperCase()}`;
+                slideConceptTag.innerText = ep.concept_tag;
+                slideEpTitle.innerText = `${ep.episode_no}：${ep.title}`;
+                noteArticleDirectLink.href = ep.note_url;
+
+                tabCategoryBadge.innerText = tab.name;
+                tabCategorySub.innerText = tab.sub;
+
+                let contentText = "";
+                if (currentTabIndex === 4) {
+                    contentText = ep.render_code;
+                    slideTextBody.className = "code-font text-xs sm:text-sm font-medium leading-relaxed select-text tracking-normal whitespace-pre-line text-emerald-700 dark:text-emerald-300";
+                    tabCategoryBadge.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-950/80 dark:border-emerald-500/40 dark:text-emerald-400";
+                    copyActiveBtnLabel.innerText = "Renderコードをコピー";
+                    btnCopyActiveTab.className = "px-2.5 py-1 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black transition flex items-center gap-1.5 active:scale-95 shadow-md shadow-emerald-950/20";
+                } else {
+                    contentText = ep.spec[tab.key];
+                    slideTextBody.className = "text-base sm:text-lg font-normal leading-relaxed select-text tracking-wide whitespace-pre-line text-slate-800 dark:text-slate-100";
+                    tabCategoryBadge.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-700 border border-purple-300 dark:bg-purple-950/60 dark:border-purple-500/30 dark:text-purple-300";
+                    copyActiveBtnLabel.innerText = tab.copyLabel;
+                    btnCopyActiveTab.className = "px-2.5 py-1 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 dark:bg-slate-800/80 dark:hover:bg-slate-700 dark:border-slate-700/80 dark:text-purple-300 text-xs font-bold transition flex items-center gap-1.5 active:scale-95 shadow-sm";
+                }
+                slideTextBody.innerText = contentText;
+
+                tuningNotesBody.innerText = ep.tuning_notes;
+
+                if (currentTabIndex === 4) {
+                    slideMainCard.classList.remove('slide-glow-purple');
+                    slideMainCard.classList.add('slide-glow-render');
+                } else {
+                    slideMainCard.classList.remove('slide-glow-render');
+                    slideMainCard.classList.add('slide-glow-purple');
+                }
+
+                tabButtons.forEach((btn, idx) => {
+                    btn.classList.remove('active-tab', 'active-tab-render');
+                    if (idx === currentTabIndex) {
+                        if (idx === 4) {
+                            btn.classList.add('active-tab-render');
+                        } else {
+                            btn.classList.add('active-tab');
+                        }
+                    }
+                });
+
+                if (animate) {
+                    slideMessageBox.classList.remove('content-fading');
+                }
+            }, animate ? 150 : 0);
+
+            btnPrevSlide.disabled = (currentEpisodeIndex <= 0);
+            btnNextSlide.disabled = (currentEpisodeIndex >= CORPUS_DATA.length - 1);
+
+            renderDots();
+        }
+
+        function goToEpisode(index) {
+            if (index < 0 || index >= CORPUS_DATA.length) return;
+            currentEpisodeIndex = index;
+            updateSlideView(true);
+        }
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabIdx = parseInt(btn.getAttribute('data-tab-index'), 10);
+                if (currentTabIndex !== tabIdx) {
+                    currentTabIndex = tabIdx;
+                    updateSlideView(true);
+                }
+            });
+        });
+
+        btnPrevSlide.addEventListener('click', () => {
+            if (currentEpisodeIndex > 0) goToEpisode(currentEpisodeIndex - 1);
+        });
+
+        btnNextSlide.addEventListener('click', () => {
+            if (currentEpisodeIndex < CORPUS_DATA.length - 1) goToEpisode(currentEpisodeIndex + 1);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (searchModalOverlay.classList.contains('hidden') && portalModalOverlay.classList.contains('hidden')) {
+                if (e.key === 'ArrowLeft') btnPrevSlide.click();
+                else if (e.key === 'ArrowRight') btnNextSlide.click();
+            }
+        });
+
+        // スワイプ対応
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slideMainCard.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        slideMainCard.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipeGesture();
+        }, { passive: true });
+
+        function handleSwipeGesture() {
+            const threshold = 55;
+            if (touchEndX < touchStartX - threshold) {
+                if (currentEpisodeIndex < CORPUS_DATA.length - 1) goToEpisode(currentEpisodeIndex + 1);
+            } else if (touchEndX > touchStartX + threshold) {
+                if (currentEpisodeIndex > 0) goToEpisode(currentEpisodeIndex - 1);
+            }
+        }
+
+        function copyText(text, btnElement, successMsg = "コピー完了！") {
+            navigator.clipboard.writeText(text).then(() => {
+                const origHtml = btnElement.innerHTML;
+                btnElement.innerHTML = `<i class="fa-solid fa-check text-emerald-500"></i><span>${successMsg}</span>`;
+                setTimeout(() => {
+                    btnElement.innerHTML = origHtml;
+                }, 1600);
+            });
+        }
+
+        btnCopyActiveTab.addEventListener('click', () => {
+            const ep = CORPUS_DATA[currentEpisodeIndex];
+            const tab = TAB_CONFIGS[currentTabIndex];
+            let text = (currentTabIndex === 4) ? ep.render_code : ep.spec[tab.key];
+            copyText(text, btnCopyActiveTab);
+        });
+
+        btnCopyFullSpec.addEventListener('click', () => {
+            const ep = CORPUS_DATA[currentEpisodeIndex];
+            const fullText = `=== 【2PS実証原本】${ep.episode_no}：${ep.title} ===
+■ 公開日: ${ep.publish_date}
+■ コンセプト: ${ep.concept_tag}
+■ note本編URL: ${ep.note_url}
+
+---
+### 🧭 【第1段階：日本語Spec原本】
+1. 空間レイヤー構造:
+${ep.spec.spatial}
+
+2. 光と空気の調律（Why & Intent）:
+${ep.spec.why}
+
+3. UIネガティブスペース:
+${ep.spec.ui}
+
+4. 厳格な排除拘束:
+${ep.spec.negative}
+
+---
+### 🎨 【第2段階：確定英語Renderコード】
+${ep.render_code}
+
+---
+### 💡 【現場調律メモ（Director's Log）】
+${ep.tuning_notes}`;
+
+            copyText(fullText, btnCopyFullSpec, "一括完了！");
+        });
+
+        btnToggleNotes.addEventListener('click', () => {
+            const isHidden = tuningNotesDrawer.classList.contains('hidden');
+            if (isHidden) {
+                tuningNotesDrawer.classList.remove('hidden');
+                iconNotesArrow.classList.add('rotate-180');
+            } else {
+                tuningNotesDrawer.classList.add('hidden');
+                iconNotesArrow.classList.remove('rotate-180');
+            }
+        });
+
+        function openSearchModal() {
+            searchModalOverlay.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                searchModalOverlay.classList.remove('opacity-0');
+                searchModalOverlay.classList.add('opacity-100');
+                searchModalCard.classList.remove('scale-95');
+                searchModalCard.classList.add('scale-100');
+                corpusSearchInput.focus();
+            });
+            executeSearch();
+        }
+
+        function closeSearchModal() {
+            searchModalOverlay.classList.remove('opacity-100');
+            searchModalOverlay.classList.add('opacity-0');
+            searchModalCard.classList.remove('scale-100');
+            searchModalCard.classList.add('scale-95');
+            setTimeout(() => {
+                searchModalOverlay.classList.add('hidden');
+                corpusSearchInput.value = '';
+            }, 200);
+        }
+
+        btnToggleSearch.addEventListener('click', openSearchModal);
+        btnCloseSearch.addEventListener('click', closeSearchModal);
+
+        searchModalOverlay.addEventListener('click', (e) => {
+            if (e.target === searchModalOverlay) closeSearchModal();
+        });
+
+        function executeSearch() {
+            const query = corpusSearchInput.value.toLowerCase().trim();
+            searchResultsList.innerHTML = '';
+
+            const results = CORPUS_DATA.filter(ep => {
+                const combined = `
+                    ${ep.episode_no} ${ep.title} ${ep.concept_tag}
+                    ${ep.spec.spatial} ${ep.spec.why} ${ep.spec.ui} ${ep.spec.negative}
+                    ${ep.render_code} ${ep.tuning_notes}
+                `.toLowerCase();
+                return combined.includes(query);
+            });
+
+            if (results.length === 0) {
+                searchResultsList.innerHTML = `
+                    <div class="p-3 text-center text-slate-400">
+                        該当する原本エピソードが見つかりませんでした。
+                    </div>
+                `;
+                return;
+            }
+
+            results.forEach(ep => {
+                const epIdx = CORPUS_DATA.findIndex(item => item.id === ep.id);
+                const item = document.createElement('div');
+                item.className = "p-2.5 rounded-xl bg-slate-50 hover:bg-purple-50 border border-slate-200 hover:border-purple-300 dark:bg-slate-950 dark:hover:bg-purple-950/40 dark:border-slate-800 dark:hover:border-purple-500/50 cursor-pointer transition flex items-center justify-between gap-2";
+                item.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="code-font text-[10px] text-purple-600 dark:text-purple-400 font-bold">${ep.episode_no}</span>
+                            <span class="font-bold text-slate-800 dark:text-white">${ep.title}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-xs mt-0.5">${ep.concept_tag}</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                `;
+                item.addEventListener('click', () => {
+                    goToEpisode(epIdx);
+                    closeSearchModal();
+                });
+                searchResultsList.appendChild(item);
+            });
+        }
+
+        corpusSearchInput.addEventListener('input', executeSearch);
+
+        function openPortalModal() {
+            portalModalOverlay.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                portalModalOverlay.classList.remove('opacity-0');
+                portalModalOverlay.classList.add('opacity-100');
+                portalModalCard.classList.remove('scale-95');
+                portalModalCard.classList.add('scale-100');
+            });
+        }
+
+        function closePortalModal() {
+            portalModalOverlay.classList.remove('opacity-100');
+            portalModalOverlay.classList.add('opacity-0');
+            portalModalCard.classList.remove('scale-100');
+            portalModalCard.classList.add('scale-95');
+            setTimeout(() => {
+                portalModalOverlay.classList.add('hidden');
+            }, 200);
+        }
+
+        btnOpenPortal.addEventListener('click', openPortalModal);
+        btnCancelPortal.addEventListener('click', closePortalModal);
+
+        portalModalOverlay.addEventListener('click', (e) => {
+            if (e.target === portalModalOverlay) closePortalModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (!searchModalOverlay.classList.contains('hidden')) closeSearchModal();
+                if (!portalModalOverlay.classList.contains('hidden')) closePortalModal();
+            }
+        });
+
+        window.addEventListener('load', () => {
+            initDropdown();
+            applyTheme(false);
+        });
+    </script>
 </body>
 </html>
