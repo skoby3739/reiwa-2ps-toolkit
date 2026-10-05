@@ -84,6 +84,14 @@
         .animate-pulse-soft {
             animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
+
+        /* タブの切り替えトランジション */
+        .tab-panel-transition {
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+        }
+        .tab-panel-hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-start selection:bg-cyan-500 selection:text-white bg-slate-50 text-slate-800 dark:bg-[#030712] dark:text-[#f8fafc]">
@@ -92,39 +100,39 @@
         <div class="max-w-6xl mx-auto h-full flex items-center justify-between gap-3">
             
             <!-- 左側：ポータル帰還＆タイトル -->
-            <div class="flex items-center gap-2.5">
+            <div class="flex items-center gap-2">
                 <button type="button" id="btn-open-portal" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-cyan-500/50 text-slate-600 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-300 flex items-center justify-center text-xs transition active:scale-95 shadow-sm" title="公式Webアセットポータルへ">
                     <i class="fa-solid fa-house text-[12px]"></i>
                 </button>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1.5 sm:gap-2">
                     <span class="code-font text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-300 dark:bg-cyan-950/80 dark:border-cyan-500/40 dark:text-cyan-300">
                         2PS WORKBENCH
                     </span>
-                    <h1 class="text-xs sm:text-sm font-black tracking-wider text-slate-900 dark:text-slate-100 hidden xs:inline">
+                    <h1 class="text-xs sm:text-sm font-black tracking-wider text-slate-900 dark:text-slate-100 hidden sm:inline">
                         公式ワークベンチ
                     </h1>
                 </div>
             </div>
 
             <!-- 右側：テーマ切り替え・初期化・noteマガジンリンク -->
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5 sm:gap-2">
                 
                 <!-- note白 ⇄ 漆黒 切り替えトグルボタン -->
-                <button type="button" id="btn-toggle-theme" class="h-8 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition flex items-center justify-center gap-1.5 active:scale-95 shadow-sm" title="note執筆画面（白）と漆黒ダークモードを切り替え">
+                <button type="button" id="btn-toggle-theme" class="h-8 px-2 sm:px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 dark:bg-slate-900 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition flex items-center justify-center gap-1 active:scale-95 shadow-sm" title="note執筆画面（白）と漆黒ダークモードを切り替え">
                     <i id="theme-icon" class="fa-solid fa-sun text-[11px] text-amber-500"></i>
-                    <span id="theme-label" class="text-[11px] font-bold hidden sm:inline">note白</span>
+                    <span id="theme-label" class="text-[11px] font-bold hidden xs:inline">note白</span>
                 </button>
 
                 <!-- リセットボタン -->
-                <button type="button" id="btn-reset-inputs" class="h-8 px-2.5 rounded-xl bg-slate-100 hover:bg-rose-50 border border-slate-300 hover:border-rose-300 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-rose-500/40 text-slate-600 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 text-xs font-semibold transition flex items-center justify-center gap-1 active:scale-95 shadow-sm" title="入力内容を初期化">
+                <button type="button" id="btn-reset-inputs" class="h-8 px-2 sm:px-2.5 rounded-xl bg-slate-100 hover:bg-rose-50 border border-slate-300 hover:border-rose-300 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-rose-500/40 text-slate-600 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 text-xs font-semibold transition flex items-center justify-center gap-1 active:scale-95 shadow-sm" title="入力内容を初期化">
                     <i class="fa-solid fa-rotate-left text-[11px]"></i>
                     <span class="text-[11px] hidden md:inline">初期化</span>
                 </button>
 
                 <!-- note公式マガジン直通リンク -->
-                <a href="https://note.com/skoby3739/m/m1e80c92833b6" target="_blank" rel="noopener noreferrer" class="h-8 px-3 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm active:scale-95" title="note公式マガジンを別タブで開く">
+                <a href="https://note.com/skoby3739/m/m1e80c92833b6" target="_blank" rel="noopener noreferrer" class="h-8 px-2.5 sm:px-3 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white text-xs font-bold transition flex items-center gap-1 shadow-sm active:scale-95" title="note公式マガジンを別タブで開く">
                     <i class="fa-solid fa-book-open text-[11px]"></i>
-                    <span class="text-[11px]">マガジン</span>
+                    <span class="text-[11px] hidden xs:inline">マガジン</span>
                     <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-75"></i>
                 </a>
 
@@ -133,37 +141,60 @@
         </div>
     </header>
 
-    <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6 space-y-6">
+    <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-3 sm:py-5 space-y-3 sm:space-y-4">
 
-        <!-- 導入ガイダンスストリップ -->
-        <div class="rounded-2xl border border-slate-200 bg-white/80 dark:border-slate-800/80 dark:bg-slate-900/60 p-3.5 sm:p-4.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm backdrop-blur-sm">
-            <div class="flex items-start sm:items-center gap-3">
-                <div class="w-8 h-8 rounded-xl bg-cyan-100 text-cyan-700 dark:bg-cyan-950/80 dark:border dark:border-cyan-500/40 dark:text-cyan-300 flex items-center justify-center text-sm flex-shrink-0">
+        <!-- 導入ガイダンスストリップ（コンパクト化） -->
+        <div class="rounded-2xl border border-slate-200 bg-white/80 dark:border-slate-800/80 dark:bg-slate-900/60 p-3 flex items-center justify-between gap-3 shadow-sm backdrop-blur-sm">
+            <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-7 h-7 rounded-lg bg-cyan-100 text-cyan-700 dark:bg-cyan-950/80 dark:border dark:border-cyan-500/40 dark:text-cyan-300 flex items-center justify-center text-xs flex-shrink-0">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
-                <div>
-                    <h2 class="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
+                <div class="min-w-0">
+                    <h2 class="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100 truncate">
                         2PSメソッド 一発確定2ステップ・パイプライン
                     </h2>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
-                        推敲セッション末尾に貼るだけ。本文の文脈からSpecとRenderを自動生成し、あなたの情景を添えて100点確定打を出力します。
+                    <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                        本文末尾に初手（Step 1）➔ あなたのこだわり（Step 2）で100点確定打を出力
                     </p>
                 </div>
             </div>
-            <div class="flex items-center gap-2 flex-shrink-0">
-                <span class="text-[10px] font-mono px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold">
-                    Gemini / ChatGPT / Claude 全対応
-                </span>
-            </div>
+            <span class="text-[9px] sm:text-[10px] font-mono px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold flex-shrink-0 hidden xs:inline">
+                全AI対応
+            </span>
+        </div>
+
+        <!-- ★新設：親指1タップ・3大ワークフロー切り替えタブバー -->
+        <div class="w-full bg-slate-200/80 dark:bg-slate-950 p-1 rounded-2xl border border-slate-300/80 dark:border-slate-800 flex items-center gap-1 shadow-inner">
+            
+            <!-- Tab 1: Step 1 初手 -->
+            <button type="button" id="tab-btn-step1" class="workflow-tab-btn flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 shadow-sm bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-300 border border-cyan-300/60 dark:border-cyan-500/50" data-target="tab-panel-step1">
+                <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+                <span class="code-font text-[10px] hidden xs:inline">STEP 1</span>
+                <span>初手メタ構文</span>
+            </button>
+
+            <!-- Tab 2: Step 2 確定打 -->
+            <button type="button" id="tab-btn-step2" class="workflow-tab-btn flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" data-target="tab-panel-step2">
+                <span class="w-2 h-2 rounded-full bg-amber-500 opacity-60"></span>
+                <span class="code-font text-[10px] hidden xs:inline">STEP 2</span>
+                <span>確定打Linter</span>
+            </button>
+
+            <!-- Tab 3: 換装辞書 -->
+            <button type="button" id="tab-btn-dict" class="workflow-tab-btn flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" data-target="tab-panel-dict">
+                <i class="fa-solid fa-book-bookmark text-[11px] text-purple-500"></i>
+                <span>換装辞書</span>
+            </button>
+
         </div>
 
         <!-- =================================================================== -->
-        <!-- STEP 1: 【初手】2PS自動生成メタ・プロンプト                          -->
+        <!-- TAB PANEL 1: STEP 1 【初手】2PS自動生成メタ・プロンプト             -->
         <!-- =================================================================== -->
-        <section class="rounded-3xl border border-slate-200 bg-white shadow-md dark:border-slate-800 dark:bg-slate-900/70 p-4 sm:p-6 space-y-4 glow-focus-cyan transition-all duration-300">
+        <section id="tab-panel-step1" class="tab-panel-transition rounded-3xl border border-slate-200 bg-white shadow-md dark:border-slate-800 dark:bg-slate-900/70 p-4 sm:p-6 space-y-4 glow-focus-cyan">
             
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-slate-200 dark:border-slate-800">
-                <div class="flex items-center gap-2.5 flex-wrap">
+                <div class="flex items-center gap-2 flex-wrap">
                     <span class="code-font text-xs font-black px-2.5 py-1 rounded-xl bg-cyan-100 text-cyan-800 border border-cyan-300 dark:bg-cyan-950 dark:border-cyan-500/50 dark:text-cyan-300">
                         STEP 1 // 初手
                     </span>
@@ -176,33 +207,41 @@
                 </div>
 
                 <!-- コピーボタン -->
-                <button type="button" id="btn-copy-step1" class="px-3 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 active:scale-95 shadow-md shadow-cyan-900/20">
-                    <i class="fa-regular fa-copy text-[11px]"></i>
+                <button type="button" id="btn-copy-step1" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 active:scale-95 shadow-md shadow-cyan-900/20">
+                    <i class="fa-regular fa-copy text-[12px]"></i>
                     <span id="label-copy-step1">初手構文をコピー</span>
                 </button>
             </div>
 
             <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                記事本文を推敲し終えたAIチャット（Gemini推奨）の<strong>まさにその同一セッションの末尾</strong>に貼り付けて送信してください。文脈の記憶（KVキャッシュ）を活かし、第1段階「日本語Spec」と第2段階「確定英語Render」が自動出力されます。
+                記事本文を推敲し終えたAIチャット（Gemini推奨）の<strong>まさにその同一セッションの末尾</strong>に貼り付けて送信してください。第1段階「日本語Spec」と第2段階「確定英語Render」が自動出力されます。
             </p>
 
             <!-- 編集可能なメタ構文テキストエリア -->
             <div class="relative">
-                <textarea id="textarea-step1" rows="9" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl p-3.5 sm:p-4 text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-200 focus:outline-none transition resize-y selection:bg-cyan-500 selection:text-white" placeholder="Step 1 メタ構文..."></textarea>
+                <textarea id="textarea-step1" rows="10" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl p-3.5 sm:p-4 text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-200 focus:outline-none transition resize-y selection:bg-cyan-500 selection:text-white" placeholder="Step 1 メタ構文..."></textarea>
                 <div class="absolute right-3 bottom-3 pointer-events-none text-[10px] font-mono text-slate-400 dark:text-slate-600">
-                    ※直接編集・加筆可能
+                    ※直接編集可能
                 </div>
+            </div>
+
+            <!-- 次のステップへのクイック誘導ボタン（スマホ快適化） -->
+            <div class="pt-2 flex items-center justify-end">
+                <button type="button" id="btn-goto-step2" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-amber-50 border border-slate-300 hover:border-amber-400 dark:bg-slate-800 dark:border-slate-700 dark:hover:border-amber-500/60 text-slate-700 hover:text-amber-700 dark:text-slate-200 dark:hover:text-amber-300 text-xs font-bold transition flex items-center justify-center gap-2 active:scale-95 shadow-sm">
+                    <span>続けて「Step 2：確定打Linter」へ進む</span>
+                    <i class="fa-solid fa-arrow-right text-[11px] text-amber-500"></i>
+                </button>
             </div>
 
         </section>
 
         <!-- =================================================================== -->
-        <!-- STEP 2: 【確定打】作者ビジョン注入 ＆ 辞書内蔵リファクタリングLinter   -->
+        <!-- TAB PANEL 2: STEP 2 【確定打】作者ビジョン注入 ＆ 確定Linter       -->
         <!-- =================================================================== -->
-        <section class="rounded-3xl border border-slate-200 bg-white shadow-md dark:border-slate-800 dark:bg-slate-900/70 p-4 sm:p-6 space-y-5 transition-all duration-300">
+        <section id="tab-panel-step2" class="tab-panel-transition tab-panel-hidden rounded-3xl border border-slate-200 bg-white shadow-md dark:border-slate-800 dark:bg-slate-900/70 p-4 sm:p-6 space-y-4">
             
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-slate-200 dark:border-slate-800">
-                <div class="flex items-center gap-2.5 flex-wrap">
+                <div class="flex items-center gap-2 flex-wrap">
                     <span class="code-font text-xs font-black px-2.5 py-1 rounded-xl bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950 dark:border-amber-500/50 dark:text-amber-300">
                         STEP 2 // 確定打
                     </span>
@@ -219,29 +258,29 @@
             </div>
 
             <!-- 作者ビジョン・固有のこだわり入力スロット（アンバー発光） -->
-            <div class="rounded-2xl border border-amber-200 bg-amber-50/50 dark:border-amber-500/30 dark:bg-amber-950/20 p-4 space-y-2.5 glow-focus-amber transition-all">
+            <div class="rounded-2xl border border-amber-200 bg-amber-50/50 dark:border-amber-500/30 dark:bg-amber-950/20 p-3.5 sm:p-4 space-y-2 glow-focus-amber transition-all">
                 <div class="flex items-center justify-between gap-2">
                     <label for="input-author-vision" class="text-xs font-bold text-amber-800 dark:text-amber-300 flex items-center gap-1.5">
                         <i class="fa-solid fa-paintbrush text-amber-600 dark:text-amber-400"></i>
-                        <span>【作者の情景イメージ・固有のこだわり（Director's Vision）】</span>
+                        <span>【作者の情景イメージ・固有のこだわり】</span>
                     </label>
                     <span class="text-[10px] text-amber-600 dark:text-amber-400/80 font-mono">
-                        リアルタイム自動マージ
+                        自動合成
                     </span>
                 </div>
                 <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                    頭の中にある生の情景、構図、色味、譲れない雰囲気を自由に1〜3行入力してください（未記入でも自己監査・自動修正は完璧に実行されます）。
+                    頭の中にある生の情景、構図、色味、雰囲気を自由に1〜3行入力してください（未記入でも完璧に自動修正されます）。
                 </p>
                 <textarea id="input-author-vision" rows="3" class="w-full bg-white dark:bg-slate-950 border border-amber-300 dark:border-amber-500/50 rounded-xl p-3 text-xs leading-relaxed text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none transition resize-y selection:bg-amber-500 selection:text-white" placeholder="例：奥の塀をなくしてどこまでも続く秋の紅葉にしたい。二人は写実ではなく温かいピクサー調アニメにして、言葉を交わさず静かに満月を見上げている構図にしたい。手前の床板は暗めに抑えて月光を主役にしたい。"></textarea>
             </div>
 
             <!-- 完成構文プレビュー（エメラルド発光＆ワンタップコピー） -->
-            <div class="space-y-2.5 glow-focus-emerald transition-all rounded-2xl p-0.5">
-                <div class="flex items-center justify-between gap-2 flex-wrap">
+            <div class="space-y-2 glow-focus-emerald transition-all rounded-2xl p-0.5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
                             <i class="fa-solid fa-terminal text-emerald-600 dark:text-emerald-400"></i>
-                            <span>完成確定構文プレビュー（Linter ＋ 内蔵換装辞書 ＋ あなたのビジョン）</span>
+                            <span>完成確定構文プレビュー</span>
                         </span>
                         <span id="badge-preview-status" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-950 dark:border-emerald-500/40 dark:text-emerald-300">
                             確定準備完了
@@ -249,27 +288,39 @@
                     </div>
 
                     <!-- コピーボタン -->
-                    <button type="button" id="btn-copy-step2" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black transition flex items-center justify-center gap-1.5 active:scale-95 shadow-md shadow-emerald-900/20">
-                        <i class="fa-regular fa-copy text-[11px]"></i>
+                    <button type="button" id="btn-copy-step2" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black transition flex items-center justify-center gap-1.5 active:scale-95 shadow-md shadow-emerald-900/20">
+                        <i class="fa-regular fa-copy text-[12px]"></i>
                         <span id="label-copy-step2">確定打構文を一発コピー</span>
                     </button>
                 </div>
 
                 <div class="relative">
-                    <textarea id="textarea-step2-preview" rows="12" readonly class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl p-3.5 sm:p-4 text-xs font-mono leading-relaxed text-emerald-800 dark:text-emerald-300 focus:outline-none transition resize-y selection:bg-emerald-500 selection:text-white" placeholder="合成後のStep 2確定構文がここにリアルタイム表示されます..."></textarea>
+                    <textarea id="textarea-step2-preview" rows="10" readonly class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl p-3.5 sm:p-4 text-xs font-mono leading-relaxed text-emerald-800 dark:text-emerald-300 focus:outline-none transition resize-y selection:bg-emerald-500 selection:text-white" placeholder="合成後のStep 2確定構文がここにリアルタイム表示されます..."></textarea>
                 </div>
+            </div>
+
+            <!-- ナビゲーションフッター -->
+            <div class="pt-2 flex items-center justify-between">
+                <button type="button" id="btn-back-step1" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                    <span>Step 1へ戻る</span>
+                </button>
+                <button type="button" id="btn-goto-dict" class="px-3.5 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <span>換装辞書を確認する</span>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
             </div>
 
         </section>
 
         <!-- =================================================================== -->
-        <!-- ツール ③：【手元確認用】抽象語 ➔ 物理表現 換装ナレッジベース          -->
+        <!-- TAB PANEL 3: 【手元確認用】抽象語 ➔ 物理表現 換装辞書                 -->
         <!-- =================================================================== -->
-        <section class="rounded-3xl border border-slate-200 bg-white shadow-md dark:border-slate-800 dark:bg-slate-900/70 p-4 sm:p-6 space-y-4">
+        <section id="tab-panel-dict" class="tab-panel-transition tab-panel-hidden rounded-3xl border border-slate-200 bg-white shadow-md dark:border-slate-800 dark:bg-slate-900/70 p-4 sm:p-6 space-y-4">
             
-            <div class="flex items-center justify-between gap-3 flex-wrap">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 dark:bg-purple-950 dark:border dark:border-purple-500/40 dark:text-purple-300 flex items-center justify-center text-xs">
+                    <span class="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 dark:bg-purple-950 dark:border dark:border-purple-500/40 dark:text-purple-300 flex items-center justify-center text-xs flex-shrink-0">
                         <i class="fa-solid fa-book-bookmark"></i>
                     </span>
                     <div>
@@ -277,7 +328,7 @@
                             手元確認用 抽象語 ➔ 物理表現 換装ナレッジベース
                         </h3>
                         <p class="text-[11px] text-slate-500 dark:text-slate-400">
-                            AIが内部で基準（アンカー）として参照している換装ルールの逆引きリファレンス
+                            AIが内部で基準（アンカー）として参照している換装ルールの逆引き辞書
                         </p>
                     </div>
                 </div>
@@ -290,8 +341,16 @@
             </div>
 
             <!-- 辞書カードグリッド -->
-            <div id="dict-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+            <div id="dict-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
                 <!-- JSで動的レンダリング -->
+            </div>
+
+            <!-- ナビゲーションフッター -->
+            <div class="pt-2 flex items-center justify-start">
+                <button type="button" id="btn-back-step2" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                    <span>Step 2（確定打）へ戻る</span>
+                </button>
             </div>
 
         </section>
@@ -327,7 +386,7 @@
 
     <script>
         // =====================================================================
-        // 1. 定数定義（Step 1 メタ構文 ＆ Step 2 Linter テンプレート ＆ 辞書データ）
+        // 1. 定数定義（テンプレート ＆ 辞書データ）
         // =====================================================================
         const STEP1_DEFAULT_TEMPLATE = `これまでの執筆セッションで紡いできた本文の文脈、テーマ、空気感、登場人物の感情を寸分違わぬ解像度で定着させるため、「画像生成の2PSメソッド（Two-Stage Prompt Spec）」に従って本記事の公式アイキャッチ（見出し画像）プロンプトを策定してください。
 
@@ -446,6 +505,18 @@
         const themeIcon = document.getElementById('theme-icon');
         const themeLabel = document.getElementById('theme-label');
 
+        const tabBtnStep1 = document.getElementById('tab-btn-step1');
+        const tabBtnStep2 = document.getElementById('tab-btn-step2');
+        const tabBtnDict = document.getElementById('tab-btn-dict');
+        const tabPanelStep1 = document.getElementById('tab-panel-step1');
+        const tabPanelStep2 = document.getElementById('tab-panel-step2');
+        const tabPanelDict = document.getElementById('tab-panel-dict');
+
+        const btnGotoStep2 = document.getElementById('btn-goto-step2');
+        const btnBackStep1 = document.getElementById('btn-back-step1');
+        const btnGotoDict = document.getElementById('btn-goto-dict');
+        const btnBackStep2 = document.getElementById('btn-back-step2');
+
         const textareaStep1 = document.getElementById('textarea-step1');
         const btnCopyStep1 = document.getElementById('btn-copy-step1');
         const labelCopyStep1 = document.getElementById('label-copy-step1');
@@ -467,7 +538,7 @@
         const portalModalCard = document.getElementById('portal-modal-card');
         const btnCancelPortal = document.getElementById('btn-cancel-portal');
 
-        let isDarkMode = false; // デフォルト：note執筆画面と親和性の高い「note白モード」
+        let isDarkMode = false; // デフォルト：note白モード
 
         // =====================================================================
         // 3. テーマ切り替えロジック（note白 ⇄ 漆黒ダーク）
@@ -478,12 +549,12 @@
                 htmlElement.classList.add('dark');
                 themeIcon.className = "fa-solid fa-sun text-[11px] text-amber-400";
                 themeLabel.innerText = "note白";
-                themeLabel.className = "text-[11px] font-bold text-slate-300 hidden sm:inline";
+                themeLabel.className = "text-[11px] font-bold text-slate-300 hidden xs:inline";
             } else {
                 htmlElement.classList.remove('dark');
                 themeIcon.className = "fa-solid fa-moon text-[11px] text-indigo-600";
                 themeLabel.innerText = "漆黒";
-                themeLabel.className = "text-[11px] font-bold text-slate-700 hidden sm:inline";
+                themeLabel.className = "text-[11px] font-bold text-slate-700 hidden xs:inline";
             }
         }
 
@@ -492,7 +563,45 @@
         });
 
         // =====================================================================
-        // 4. Step 2 リアルタイム自動合成ロジック
+        // 4. ★3大ワークフロー・タブ切り替えロジック
+        // =====================================================================
+        function switchWorkflowTab(activeTabId) {
+            // パネルの表示・非表示
+            const panels = [
+                { id: 'step1', btn: tabBtnStep1, panel: tabPanelStep1, activeClass: 'text-cyan-600 dark:text-cyan-300 border-cyan-300/60 dark:border-cyan-500/50' },
+                { id: 'step2', btn: tabBtnStep2, panel: tabPanelStep2, activeClass: 'text-amber-600 dark:text-amber-300 border-amber-300/60 dark:border-amber-500/50' },
+                { id: 'dict', btn: tabBtnDict, panel: tabPanelDict, activeClass: 'text-purple-600 dark:text-purple-300 border-purple-300/60 dark:border-purple-500/50' }
+            ];
+
+            panels.forEach(p => {
+                if (p.id === activeTabId) {
+                    p.panel.classList.remove('tab-panel-hidden');
+                    p.btn.className = `workflow-tab-btn flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 shadow-sm bg-white dark:bg-slate-800 border ${p.activeClass}`;
+                } else {
+                    p.panel.classList.add('tab-panel-hidden');
+                    p.btn.className = "workflow-tab-btn flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+                }
+            });
+
+            // ページ上部へスムーズに位置合わせ
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        tabBtnStep1.addEventListener('click', () => switchWorkflowTab('step1'));
+        tabBtnStep2.addEventListener('click', () => switchWorkflowTab('step2'));
+        tabBtnDict.addEventListener('click', () => switchWorkflowTab('dict'));
+
+        // クイックステップ遷移ボタン
+        btnGotoStep2.addEventListener('click', () => {
+            switchWorkflowTab('step2');
+            inputAuthorVision.focus();
+        });
+        btnBackStep1.addEventListener('click', () => switchWorkflowTab('step1'));
+        btnGotoDict.addEventListener('click', () => switchWorkflowTab('dict'));
+        btnBackStep2.addEventListener('click', () => switchWorkflowTab('step2'));
+
+        // =====================================================================
+        // 5. Step 2 リアルタイム自動合成ロジック
         // =====================================================================
         function updateStep2Synthesis() {
             const visionText = inputAuthorVision.value.trim();
@@ -502,7 +611,7 @@
 
             if (visionText.length > 0) {
                 badgeStep2Status.className = "text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950 dark:border-amber-500/50 dark:text-amber-300 animate-pulse-soft";
-                badgeStep2Status.innerText = "● ビジョン注入連動中";
+                badgeStep2Status.innerText = "● ビジョン注入中";
                 badgePreviewStatus.className = "text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-950 dark:border-emerald-500/50 dark:text-emerald-300";
                 badgePreviewStatus.innerText = "ビジョン反映確定版";
             } else {
@@ -516,21 +625,49 @@
         inputAuthorVision.addEventListener('input', updateStep2Synthesis);
 
         // =====================================================================
-        // 5. クリップボード・ワンタップコピー処理
+        // 6. クリップボード・ワンタップコピー処理
         // =====================================================================
         function copyToClipboard(text, btnElement, labelElement, successMessage = "コピー完了！") {
-            navigator.clipboard.writeText(text).then(() => {
-                const origHtml = labelElement.innerText;
-                const origIcon = btnElement.querySelector('i').className;
-                
-                btnElement.querySelector('i').className = "fa-solid fa-check text-emerald-300";
-                labelElement.innerText = successMessage;
+            // execCommandフォールバック対応
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopySuccess(btnElement, labelElement, successMessage);
+                }).catch(() => {
+                    fallbackCopyText(text, btnElement, labelElement, successMessage);
+                });
+            } else {
+                fallbackCopyText(text, btnElement, labelElement, successMessage);
+            }
+        }
 
-                setTimeout(() => {
-                    btnElement.querySelector('i').className = origIcon;
-                    labelElement.innerText = origHtml;
-                }, 1600);
-            });
+        function fallbackCopyText(text, btnElement, labelElement, successMessage) {
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = text;
+            tempTextarea.style.position = 'fixed';
+            tempTextarea.style.left = '-9999px';
+            document.body.appendChild(tempTextarea);
+            tempTextarea.focus();
+            tempTextarea.select();
+            try {
+                document.execCommand('copy');
+                showCopySuccess(btnElement, labelElement, successMessage);
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+            }
+            document.body.removeChild(tempTextarea);
+        }
+
+        function showCopySuccess(btnElement, labelElement, successMessage) {
+            const origHtml = labelElement.innerText;
+            const origIcon = btnElement.querySelector('i').className;
+            
+            btnElement.querySelector('i').className = "fa-solid fa-check text-emerald-300";
+            labelElement.innerText = successMessage;
+
+            setTimeout(() => {
+                btnElement.querySelector('i').className = origIcon;
+                labelElement.innerText = origHtml;
+            }, 1600);
         }
 
         btnCopyStep1.addEventListener('click', () => {
@@ -552,7 +689,7 @@
         });
 
         // =====================================================================
-        // 6. 換装ナレッジベース（辞書）レンダリング ＆ フィルタリング
+        // 7. 換装ナレッジベース（辞書）レンダリング ＆ フィルタリング
         // =====================================================================
         function renderDictionary(filter = "") {
             dictCardsGrid.innerHTML = '';
@@ -574,9 +711,9 @@
 
             filteredData.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 hover:border-purple-300 dark:hover:border-purple-500/40 transition space-y-2";
+                card.className = "p-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 hover:border-purple-300 dark:hover:border-purple-500/40 transition space-y-1.5";
                 card.innerHTML = `
-                    <div class="flex items-center justify-between gap-1 border-b border-slate-200 dark:border-slate-800 pb-1.5">
+                    <div class="flex items-center justify-between gap-1 border-b border-slate-200 dark:border-slate-800 pb-1">
                         <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-100 text-purple-700 dark:bg-purple-950/80 dark:border dark:border-purple-500/30 dark:text-purple-300">
                             ${item.category}
                         </span>
@@ -592,7 +729,7 @@
                         </div>
                         <div class="text-[10px] font-mono text-slate-400 dark:text-slate-500 pl-4">(${item.ng_en})</div>
                     </div>
-                    <div class="space-y-1 pt-1">
+                    <div class="space-y-1 pt-0.5">
                         <div class="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
                             <strong class="text-emerald-700 dark:text-emerald-400 font-bold">⭕ 物理設計:</strong> ${item.jp_spec}
                         </div>
@@ -616,12 +753,13 @@
         });
 
         // =====================================================================
-        // 7. リセット処理 ＆ 離脱確認モーダル制御
+        // 8. リセット処理 ＆ 離脱確認モーダル制御
         // =====================================================================
         btnResetInputs.addEventListener('click', () => {
             textareaStep1.value = STEP1_DEFAULT_TEMPLATE;
             inputAuthorVision.value = '';
             updateStep2Synthesis();
+            switchWorkflowTab('step1');
         });
 
         function openPortalModal() {
@@ -658,13 +796,14 @@
         });
 
         // =====================================================================
-        // 8. ページ初期化
+        // 9. ページ初期化
         // =====================================================================
         window.addEventListener('load', () => {
             textareaStep1.value = STEP1_DEFAULT_TEMPLATE;
             updateStep2Synthesis();
             renderDictionary();
-            applyTheme(false); // 初期表示：note執筆画面と自然に溶け合う「note白モード」
+            applyTheme(false); // 初期表示：note白モード
+            switchWorkflowTab('step1'); // 初期表示：Step 1タブ
         });
     </script>
 </body>
