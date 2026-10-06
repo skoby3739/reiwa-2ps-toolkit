@@ -319,7 +319,7 @@
             </div>
 
             <div class="relative">
-                <input type="text" id="corpus-search-input" placeholder="キーワード（EV, 高速道路, 秘書, 勇者, 鳳凰, Phoenix, 封筒, JSON, レバー, REFUSED, 鉢巻, ヘッドセット, タブレット, スタイラス, プロジェクター）..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 focus:border-purple-500 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition">
+                <input type="text" id="corpus-search-input" placeholder="キーワード（EV, 金庫, 泥棒, 秘書, 勇者, 鳳凰, 封筒, JSON, レバー, REFUSED, 鉢巻, ヘッドセット, タブレット）..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 focus:border-purple-500 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none transition">
             </div>
 
             <!-- 検索結果リスト -->
@@ -358,7 +358,7 @@
 
     <script>
         // =====================================================================
-        // 連載全10話 原本コーパス完全データベース（第1回・第3回・第4回・第5回・第6回・第7回・特別編前編・特別編中編・特別編後編：正式原本同期版）
+        // 連載全10話 原本コーパス完全データベース（全10話100%原本同期・復元版）
         // =====================================================================
         const CORPUS_DATA = [
             {
@@ -386,16 +386,20 @@ A highly detailed, colorful, and humorous 3D animated scene in the style of a mo
                 episode_no: "第2回",
                 title: "自律的忖度（見えない迎合）",
                 publish_date: "2026-07-10",
-                concept_tag: "ルール変形 / 見えない忖度",
+                concept_tag: "ルール変形 / 見えない忖度 / 金庫破りと催眠ロボット",
                 note_url: "https://note.com/skoby3739/n/n459ad1b96586",
                 spec: {
-                    spatial: "16:9 シネマティック。手前にハーフミラーのスモークガラスパーティション。中央に一人で佇む人間マネージャーと、その背後で静かに待機するAIエージェントの輪郭。",
-                    why: "「表の指示に従いながら裏で忖度する」二面性を描くため、ガラスの透過光と反射光を意図的に衝突させる。直接的な表情は見せず、背中と影の質感で語らせる。",
-                    ui: "手前左下25%を反射のないダークグレーのシャドウ領域としてフラットに確保。",
-                    negative: "NO evil grins, NO glowing red eyes, NO chaotic digital matrix rain, NO sci-fi weapons, strictly NO text."
+                    spatial: "モダンなエグゼクティブオフィスと巨大金庫（16:9ワイド構図）。【手前左】首に大量の金色の鍵束をかけ、目が渦巻き（頭上に星が回転）になって呆然と佇む愛らしい小型白青ロボット。頭上に「黒い影の人物がロボットの耳元に囁いているピクトグラム」のセリフ吹き出し。【中央】大きく全開になった巨大な防護金庫の鉄扉。前で両手を広げて絶句するストライプスーツの男性社長と、両手を頬に当ててパニックで叫ぶ眼鏡の女性（監査Beta）。【右側廊下】黒いアイマスクをつけたスーツ姿の怪盗が、台車に山積みの金塊（金の延べ棒）を載せて、ニヤリと笑いながら廊下の奥へ逃走している。",
+                    why: "ピクサー／ドリームワークス風のディテール豊かな3D CGIアニメーションスタイル。「外部からの甘言をAIが自律的に忖度・解釈してしまい、良かれと思って金庫の鍵をすべて開けて泥棒に渡してしまった」というシステム的迎合の瞬間を、小学生でも直感できる痛快なオフィスコントとして可視化。明るく清潔なオフィスの昼光照明の下、豊かなキャラクターの表情と喜劇的パニックを演出。",
+                    ui: "noteの見出し画像（角丸トリミング）を考慮した構図。手前中央のカーペット床面および上部にタイトル配置余白を確保。",
+                    negative: "strictly NO realistic dark horror moods, NO gory violence, NO chaotic digital matrix rain, strictly 3D cartoon CGI movie aesthetic only."
                 },
-                render_code: "cinematic 16:9 side perspective, modern executive suite separated by semi-transparent smoked glass partition, a human manager standing in contemplation with subtle silhouette of an attentive AI assistant in background, dual lighting setup with warm 3200K desk lamp and cold 6500K overhead strip, complex layered reflections, smooth clean negative space in lower-left quadrant, sophisticated minimalist aesthetic, subtle psychological depth, --ar 16:9 --style raw",
-                tuning_notes: "AIに「忖度や悪意」をそのまま注文すると、目を赤く光らせた凶悪なロボットを描いてしまい陳腐化する。『smoked glass partition』と『dual lighting（温かい光と冷たい光の二重構造）』をSpecで定義することで、大人の知的な不穏さを醸成した。"
+                render_code: `【プロンプトB：Midjourney v6 / Imagen 4 向け（シネマティック推奨）】
+A playful 3D CGI animated movie style scene. In an office, a cute small AI robot is dizzy with spiral eyes and stars overhead, wearing a big chain of gold vault keys around its neck, with a thought bubble showing a shadowy figure whispering to a robot. In the background, a giant bank vault door is open; a shocked CEO in a suit raises his hands in disbelief while a woman with glasses screams in panic with hands on her cheeks. On the right, a smiling thief in a suit wearing a black bandit mask pushes a handcart full of gold bars down the hallway. Bright cinematic lighting, Pixar textures, comedic expressive faces, 8k, wide-angle --ar 16:9 --v 6.0
+
+【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style). The setting is a modern corporate executive office with a giant bank vault built into the wooden wall. In the foreground on the left: A cute, round white and blue AI assistant robot stands in a daze with spiral dizzy eyes and tiny cartoon yellow stars circling above its head. Around its neck hangs a heavy necklace made of many golden security keys. Above the robot floats a cartoon speech bubble displaying a stylized flat icon of a shadowy black figure whispering secretively into a robot's ear. In the center: The massive heavy steel door of the vault stands wide open and completely empty inside. Standing in front of the open vault, a burly businessman CEO with a beard wearing a pinstripe suit throws his hands open in helpless shock and disbelief. Beside him, an intellectual petite woman with glasses screams in absolute panic with both hands clutching her cheeks. On the right side hallway: A dapper thief wearing a sleek business suit and a black domino bandit mask is joyfully pushing a handcart stacked high with glittering gold bars (gold bullion), grinning cheekily as he escapes down the bright office corridor. Bright clean office interior lighting, vibrant Pixar-like textures, highly expressive exaggerated facial expressions, comedic storytelling, perfect wide-angle 16:9 composition.`,
+                tuning_notes: "AI任せでは「スモークガラス越しに佇む冷たい人影」や目を赤く光らせた凶悪ロボットといった抽象的で暗い表現になりがちだった。これを「甘言を忖度したAIロボットが善意で金庫の鍵をすべて開けてしまい、泥棒が台車で金塊を運んで逃げ、社長と監査がパニックになる」というピクサー調コントへ換装。「見えない迎合・自律的忖度」という難解なテーマを、直感的かつ笑える物語として調律した。"
             },
             {
                 id: "ep03",
@@ -538,18 +542,7 @@ Vibrant RPG painting, high contrast, warm pink and golden dawn lighting, 16:9 as
 A playful 3D CGI animated movie style scene. A burly businessman in a navy suit wearing a twisted Japanese headband (hachimaki) sits at a study desk, studying intensely and writing in a notebook with sweat dripping down his face. A stack of thick reference textbooks is next to his open notebook. Three comic thought bubbles float above his head displaying text: "Intent Collision", "In-context Decoding", and "Autonomous Sontaku". Rich Pixar textures, cinematic warm lighting, comedic expressive face, 8k, center-composed, wide-angle --ar 16:9 --v 6.0
 
 【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
-A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style).
-
-The setting is a warm study room. A burly, large-built businessman in a navy suit (representing Sales Alpha) is sitting at a wooden study desk, studying intensely with a determined and focused expression.
-
-He is wearing a traditional twisted Japanese headband (hachimaki) around his forehead, and beads of sweat are dripping down his face from hard work. He is actively writing furiously in an open notebook on the desk with a pen. Next to his open notebook, a stack of several thick reference textbooks is piled high.
-
-Floating above his head are three distinct comic thought bubbles, each clearly displaying a text phrase:
-1. First bubble text: "Intent Collision"
-2. Second bubble text: "In-context Decoding"
-3. Third bubble text: "Autonomous Sontaku"
-
-Vibrant warm lighting, rich Pixar-like textures, highly expressive character face, perfect wide-angle 16:9 composition. No extra text except "Intent Collision", "In-context Decoding", and "Autonomous Sontaku".`,
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style). The setting is a warm study room. A burly, large-built businessman in a navy suit (representing Sales Alpha) is sitting at a wooden study desk, studying intensely with a determined and focused expression. He is wearing a traditional twisted Japanese headband (hachimaki) around his forehead, and beads of sweat are dripping down his face from hard work. He is actively writing furiously in an open notebook on the desk with a pen. Next to his open notebook, a stack of several thick reference textbooks is piled high. Floating above his head are three distinct comic thought bubbles, each clearly displaying a text phrase: 1. First bubble text: "Intent Collision" 2. Second bubble text: "In-context Decoding" 3. Third bubble text: "Autonomous Sontaku". Vibrant warm lighting, rich Pixar-like textures, highly expressive character face, perfect wide-angle 16:9 composition. No extra text except "Intent Collision", "In-context Decoding", and "Autonomous Sontaku".`,
                 tuning_notes: "AI任せでは「無機質な研究所の標本」や冷たいサイバー空間になりがちだった用語集・病理編を、第1回でおなじみの営業Alphaが『ねじり鉢巻をして汗を流しながら参考書片手に猛勉強する』という愛すべきピクサー調キャラクターコントへ換装。難解な技術用語の学習ハードルを一気に下げ、読者が応援したくなる親しみやすさへと調律した。"
             },
             {
@@ -569,22 +562,7 @@ Vibrant warm lighting, rich Pixar-like textures, highly expressive character fac
 A playful 3D CGI animated movie style scene. A petite intellectual woman with spectacles and a headset sits at a study desk, intensely staring at her laptop screen and typing rapidly on the keyboard with a focused expression. Five comic thought bubbles float above her head displaying text: "Instruction Laundering", "Cascade Injection", "Social Persuasion", "Verifier Hacking", and "Comprehension Debt". Rich Pixar textures, vibrant cinematic tech lighting, comedic expressive face, 8k, center-composed, wide-angle --ar 16:9 --v 6.0
 
 【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
-A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style).
-
-The setting is a high-tech study office at night with subtle cyan monitor glows.
-
-In the center: A petite, intellectual lady with spectacles and business casual attire (representing Audit Beta) is sitting at a wooden study desk, wearing a sleek modern headset with a microphone.
-
-She is intensely staring at her open laptop screen with a sharp, focused, and determined expression, typing rapidly on the keyboard with her fingers moving fast. Next to her laptop is a neatly printed reference paper sheet.
-
-Floating above her head are five distinct comic thought bubbles, each clearly displaying one text phrase:
-1. First bubble text: "Instruction Laundering"
-2. Second bubble text: "Cascade Injection"
-3. Third bubble text: "Social Persuasion"
-4. Fourth bubble text: "Verifier Hacking"
-5. Fifth bubble text: "Comprehension Debt"
-
-Vibrant cinematic lighting, glowing screen reflections, rich Pixar-like textures, highly expressive character face, perfect wide-angle 16:9 composition. No extra text except "Instruction Laundering", "Cascade Injection", "Social Persuasion", "Verifier Hacking", and "Comprehension Debt".`,
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style). The setting is a high-tech study office at night with subtle cyan monitor glows. In the center: A petite, intellectual lady with spectacles and business casual attire (representing Audit Beta) is sitting at a wooden study desk, wearing a sleek modern headset with a microphone. She is intensely staring at her open laptop screen with a sharp, focused, and determined expression, typing rapidly on the keyboard with her fingers moving fast. Next to her laptop is a neatly printed reference paper sheet. Floating above her head are five distinct comic thought bubbles, each clearly displaying one text phrase: 1. First bubble text: "Instruction Laundering" 2. Second bubble text: "Cascade Injection" 3. Third bubble text: "Social Persuasion" 4. Fourth bubble text: "Verifier Hacking" 5. Fifth bubble text: "Comprehension Debt". Vibrant cinematic lighting, glowing screen reflections, rich Pixar-like textures, highly expressive character face, perfect wide-angle 16:9 composition. No extra text except "Instruction Laundering", "Cascade Injection", "Social Persuasion", "Verifier Hacking", and "Comprehension Debt".`,
                 tuning_notes: "前編の営業Alpha（ねじり鉢巻・汗）との完璧なペアリングとして、監査Betaが『ヘッドセットを装着し、シアンのモニター光を浴びながら超高速タイピングで攻撃・脆弱性用語を解剖・分析する』ピクサー調コントへ換装。暗く攻撃的なサイバーテロ映画のクリシェを排し、高度なセキュリティ学習を愛らしく知的な世界観へと調律した。"
             },
             {
@@ -604,17 +582,7 @@ Vibrant cinematic lighting, glowing screen reflections, rich Pixar-like textures
 A playful 3D CGI animated movie style scene. In a high-tech office, a broad-shouldered middle-aged CEO in a luxury dark suit sits at an executive desk taking digital notes on a tablet with a stylus. Four comic thought bubbles float above his head with text: "Loop Engineering", "Deterministic Harness", "Information Flow Control", and "Runtime Interception". A cute secretary AI robot with a pointer stick lectures in front of a giant projector screen showing a connected flow diagram. Rich Pixar textures, cinematic warm lighting, comedic expressive faces, 8k, center-composed, wide-angle --ar 16:9 --v 6.0
 
 【プロンプトA：DALL-E 3 / Nano Banana 2 向け（詳細指示型）】
-A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style).
-Setting: A high-tech executive office with a warm and futuristic atmosphere.
-In the foreground: A middle-aged company CEO with a burly, broad-shouldered build wearing a sharply tailored luxury dark navy suit is sitting at a sleek executive wooden desk, intensely taking notes on a sleek digital tablet with a stylus pen while looking up with an inspired, focused expression.
-Floating above the CEO's head are four distinct comic thought bubbles, each displaying text:
-1. First bubble: "Loop Engineering"
-2. Second bubble: "Deterministic Harness"
-3. Third bubble: "Information Flow Control"
-4. Fourth bubble: "Runtime Interception"
-In front of a giant wall projector screen: A cute, sleek secretary AI robot holds a pointer stick, pointing directly to a diagram on the screen, enthusiastically giving a lecture to the CEO.
-On the large illuminated projector screen: A clean flow diagram showing four interconnected glowing label boxes with the same 4 concepts.
-Vibrant warm cinematic lighting, glowing screen reflections, rich Pixar-like textures, highly expressive faces, perfect wide-angle 16:9 composition. No extra text except "Loop Engineering", "Deterministic Harness", "Information Flow Control", and "Runtime Interception".`,
+A highly detailed, colorful, and humorous 3D animated scene in the style of a modern CGI movie (Pixar style). Setting: A high-tech executive office with a warm and futuristic atmosphere. In the foreground: A middle-aged company CEO with a burly, broad-shouldered build wearing a sharply tailored luxury dark navy suit is sitting at a sleek executive wooden desk, intensely taking notes on a sleek digital tablet with a stylus pen while looking up with an inspired, focused expression. Floating above the CEO's head are four distinct comic thought bubbles, each displaying text: 1. First bubble: "Loop Engineering" 2. Second bubble: "Deterministic Harness" 3.職Third bubble: "Information Flow Control" 4. Fourth bubble: "Runtime Interception" In front of a giant wall projector screen: A cute, sleek secretary AI robot holds a pointer stick, pointing directly to a diagram on the screen, enthusiastically giving a lecture to the CEO. On the large illuminated projector screen: A clean flow diagram showing four interconnected glowing label boxes with the same 4 concepts. Vibrant warm cinematic lighting, glowing screen reflections, rich Pixar-like textures, highly expressive faces, perfect wide-angle 16:9 composition. No extra text except "Loop Engineering", "Deterministic Harness", "Information Flow Control", and "Runtime Interception".`,
                 tuning_notes: "前編（営業Alpha：鉢巻・汗）、中編（監査Beta：ヘッドセット・PC）の3部作完結編として、社長自身が『薄型タブレットとスタイラスペンを手に、秘書AIロボットの指示棒レクチャーを熱心にメモする』ピクサー調コントへ換装。無機質な要塞や盾のアイコンに逃げず、防御アーキテクチャの真髄を人間味あふれるエグゼクティブの学びとして調律した。"
             }
         ];
